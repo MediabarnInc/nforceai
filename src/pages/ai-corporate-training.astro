@@ -30,7 +30,7 @@ const audiences = [
 ---
 <Base
   title="Corporate AI training and enablement"
-  description="Role-based AI training and enablement for federal agencies and enterprises: in-person workshops, live virtual sessions and custom courses that build lasting AI fluency."
+  description="Role-based AI training for federal agencies and enterprises: in-person workshops, live virtual sessions and custom courses that build lasting AI fluency."
   closeHeading="Plan your training"
   closeText="Tell us who you want to train and what they need to do with AI. We’ll shape a program around your teams, your tools and your goals."
 >
@@ -100,14 +100,14 @@ const audiences = [
         </div>
         <div class="tracks">
           {tracks.map((t, i) => (
-            <article class="track" id={`track-${i}`} role="tabpanel" aria-labelledby={`tab-${i}`} data-track>
+            <div class="track" id={`track-${i}`} role="tabpanel" aria-labelledby={`tab-${i}`} data-track>
               <span class="track-shape" aria-hidden="true">
                 <Shape kind={(['arch', 'dots', 'ring', 'half', 'pill'] as const)[i]} fill={(['var(--violet)', 'var(--teal)', 'var(--terracotta)', 'var(--navy)', 'var(--teal)'] as const)[i]} />
               </span>
               <p class="small muted">For {t.role.toLowerCase()}</p>
               <h3>{t.title}</h3>
               <p>{t.text}</p>
-            </article>
+            </div>
           ))}
         </div>
       </div>

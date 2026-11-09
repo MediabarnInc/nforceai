@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/Article.astro
 title: How AI-driven voice biometrics can improve citizen services and efficiency
-description: How voice biometrics let agencies authenticate people in real time, cutting wait times and improving access to services such as Social Security, healthcare and disaster relief.
+description: How voice biometrics let agencies verify callers in real time, cutting wait times for services such as Social Security, healthcare and disaster relief.
 kind: Article
 intro: By authenticating people in real time from their unique voice patterns, agencies can cut wait times and improve access to services such as Social Security, healthcare and disaster relief.
 ---

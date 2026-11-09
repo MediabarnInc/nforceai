@@ -44,6 +44,13 @@ The form posts to `/api/contact`, which emails the enquiry through [Resend](http
 
 Until those are set, the form shows people a clear message asking them to email contact@nforceai.com instead. To use a different email service, replace `sendEmail()` in `src/pages/api/contact.ts`.
 
+## SEO
+
+- `robots.txt` is generated (`src/pages/robots.txt.ts`) and points at the sitemap on the production domain.
+- `@astrojs/sitemap` writes `sitemap-index.xml` with every page except the 404, which is `noindex`.
+- Every page has a unique title and a meta description of 160 characters or fewer, one H1, a canonical URL without a trailing slash, Open Graph and X tags, and schema.org data (Organization on every page, WebSite on the home page, Article and BreadcrumbList on resources and case studies).
+- Titles take the " | nForce AI" suffix only when the result stays within 60 characters.
+
 ## Quality checks
 
 ```bash

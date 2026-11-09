@@ -11,13 +11,32 @@ interface Props {
   closeHeading?: string;
   closeText?: string;
   type?: 'website' | 'article';
+  /** Keep the page out of search results (404). Also drops the canonical tag. */
+  noindex?: boolean;
+  /** Extra schema.org objects for this page, added after the Organization. */
+  schema?: Record<string, unknown>[];
 }
 
-const { title, description, closeBand = true, closeHeading, closeText, type = 'website' } = Astro.props;
-const fullTitle = title === 'nForce AI' ? title : `${title} | nForce AI`;
+const { title, description, closeBand = true, closeHeading, closeText, type = 'website', noindex = false, schema = [] } = Astro.props;
+// Add the brand suffix only while the whole title stays within ~60 characters,
+// the length search results show before truncating.
+const suffixed = `${title} | nForce AI`;
+const fullTitle = title.includes('nForce AI') || suffixed.length > 60 ? title : suffixed;
 const cleanPath = Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '/');
 const canonical = new URL(cleanPath, Astro.site);
 const og = new URL('/og.jpg', Astro.site);
+const siteUrl = new URL('/', Astro.site).href;
+const organization = {
+  '@type': 'Organization',
+  '@id': `${siteUrl}#organization`,
+  name: 'nForce AI LLC',
+  alternateName: 'nForce AI',
+  url: siteUrl,
+  logo: new URL('/favicon.svg', Astro.site).href,
+  email: 'contact@nforceai.com',
+  description: 'Women-owned AI company providing anomaly detection, fraud prevention, identity security and AI training for the U.S. public sector.',
+};
+const graph = { '@context': 'https://schema.org', '@graph': [organization, ...schema] };
 const ogAlt = 'nForce AI: Find the fraud hiding in public data. Women-owned AI anomaly detection for the U.S. public sector.';
 ---
 <!doctype html>
@@ -27,7 +46,7 @@ const ogAlt = 'nForce AI: Find the fraud hiding in public data. Women-owned AI a
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="theme-color" content="#131d36" />
@@ -50,14 +69,7 @@ const ogAlt = 'nForce AI: Find the fraud hiding in public data. Women-owned AI a
     <script
       type="application/ld+json"
       is:inline
-      set:html={JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'Organization',
-        name: 'nForce AI LLC',
-        url: 'https://www.nforceai.com',
-        email: 'contact@nforceai.com',
-        description: 'Women-owned AI company providing anomaly detection, fraud prevention, identity security and AI training for the U.S. public sector.',
-      })}
+      set:html={JSON.stringify(graph)}
     />
   </head>
   <body>

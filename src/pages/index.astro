@@ -49,8 +49,9 @@ const solutions = [
 ] as const;
 ---
 <Base
-  title="nForce AI"
+  title="nForce AI: AI fraud and anomaly detection for government"
   description="nForce AI is a women-owned AI company helping U.S. agencies detect anomalies, stop improper payments and explain every finding to an auditor."
+  schema={[{ '@type': 'WebSite', name: 'nForce AI', url: new URL('/', Astro.site).href, publisher: { '@id': new URL('/#organization', Astro.site).href } }]}
 >
   <!-- Hero -->
   <section class="hero grain grain-light ng-dawn">

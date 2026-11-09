@@ -79,7 +79,7 @@ export const articles = {
 
 export const sources = {
   treasury: 'https://home.treasury.gov/news/press-releases/jy2134',
-  treasuryOpi: 'https://paymentintegrity.treasury.gov/paymentintegrity/custom/fraud-detection',
+  fincenCheckFraud: 'https://www.fincen.gov/news/news-releases/fincen-alert-nationwide-surge-mail-theft-related-check-fraud-schemes-targeting',
   itrc: 'https://www.idtheftcenter.org/publication/2023-data-breach-report/',
   pindrop: 'https://www.pindrop.com/research/report/2024-voice-intelligence-security-report/',
 };

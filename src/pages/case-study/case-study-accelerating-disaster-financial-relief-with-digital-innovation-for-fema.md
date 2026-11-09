@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/Article.astro
 title: Accelerating disaster financial relief with digital innovation for FEMA
-description: How nForce worked with FEMA on a digital innovation prototype to streamline disaster relief, accelerate fund delivery and improve accessibility for disaster victims.
+description: How nForce worked with FEMA on a prototype to streamline disaster relief, speed up fund delivery and make aid more accessible to disaster victims.
 kind: Case study
 intro: FEMA partnered with our team on a digital innovation solution to streamline the process, accelerate the delivery of financial relief and improve accessibility for disaster victims.
 ---

@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
+import { shapePath } from '../../lib/shapes';
 
 const categories = [
   'Marketing and copywriting',
@@ -11,6 +12,26 @@ const categories = [
 ] as const;
 
 type Cat = (typeof categories)[number];
+
+/** One shape from the kit per category, drawn in a 20-unit box. */
+const icons: Record<Cat | 'all', { d: string; c: string }[]> = {
+  all: [
+    { d: shapePath('circle', 0, 0, 9, 9), c: 'var(--violet)' },
+    { d: shapePath('quarter', 11, 0, 9, 9), c: 'var(--teal)' },
+    { d: shapePath('arch', 0, 11, 9, 9), c: 'var(--terracotta)' },
+    { d: shapePath('circle', 11, 11, 9, 9), c: 'var(--gold)' },
+  ],
+  // A speech-bubble drop: a voice, a message
+  'Marketing and copywriting': [{ d: shapePath('drop', 0, 0, 20, 20), c: 'var(--red)' }],
+  // A rising quarter: growth in the pipeline
+  'Sales and CRM': [{ d: shapePath('quarter', 0, 0, 20, 20), c: 'var(--teal)' }],
+  // A coin
+  'Accounting and finance': [{ d: shapePath('circle', 0, 0, 20, 20), c: 'var(--gold)' }],
+  // A ring: a cycle, a process that loops
+  'Productivity and operations': [{ d: shapePath('ring', 0, 0, 20, 20), c: 'var(--violet)' }],
+  // An arch: a doorway, a shield
+  'Security and compliance': [{ d: shapePath('arch', 2, 0, 16, 20), c: 'var(--navy)' }],
+};
 const tools: { name: string; use: string; text: string; href: string; cat: Cat }[] = [
   { name: 'Jasper', use: 'Marketing', text: 'AI-powered marketing copy and content generation for blog posts, ads and SEO.', href: 'https://www.jasper.ai/', cat: 'Marketing and copywriting' },
   { name: 'Copy.ai', use: 'Copywriting', text: 'Fast, simple copywriting for ads, emails and websites.', href: 'https://www.copy.ai/', cat: 'Marketing and copywriting' },
@@ -43,8 +64,16 @@ const tools: { name: string; use: string; text: string; href: string; cat: Cat }
   <section class="section--tight tools-section">
     <div class="wrap">
       <div class="filters" role="group" aria-label="Filter by category" data-filters hidden>
-        <button type="button" aria-pressed="true" data-cat="all">All</button>
-        {categories.map((c) => <button type="button" aria-pressed="false" data-cat={c}>{c}</button>)}
+        <button type="button" aria-pressed="true" data-cat="all">
+          <svg class="ico" viewBox="0 0 20 20" aria-hidden="true">{icons.all.map((p) => <path d={p.d} style={`fill:${p.c}`} />)}</svg>
+          All
+        </button>
+        {categories.map((c) => (
+          <button type="button" aria-pressed="false" data-cat={c}>
+            <svg class="ico" viewBox="0 0 20 20" aria-hidden="true">{icons[c].map((p) => <path d={p.d} style={`fill:${p.c}`} fill-rule="evenodd" />)}</svg>
+            {c}
+          </button>
+        ))}
       </div>
       <p class="sr-only" aria-live="polite" data-count></p>
       <ul class="tools" data-tools>
@@ -70,7 +99,10 @@ const tools: { name: string; use: string; text: string; href: string; cat: Cat }
     min-height: 44px; padding: 0 var(--s4);
     border: 1px solid var(--line); border-radius: 999px; background: var(--white);
     font: 500 0.9375rem/1 var(--font); color: var(--navy); cursor: pointer;
+    display: inline-flex; align-items: center; gap: var(--s2);
   }
+  .ico { width: 18px; height: 18px; flex: none; }
+  .filters button[aria-pressed='true'] .ico path { fill: var(--white) !important; }
   .filters button:hover { border-color: var(--navy); }
   .filters button[aria-pressed='true'] { background: var(--navy); color: var(--white); border-color: var(--navy); }
   .tools { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); column-gap: var(--s6); }

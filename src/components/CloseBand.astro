@@ -1,0 +1,64 @@
+---
+import Arrow from './Arrow.astro';
+import Mosaic from './Mosaic.astro';
+import { naics } from '../data/site';
+
+interface Props { heading?: string; text?: string }
+const {
+  heading = 'Work with us',
+  text = 'Tell us about the data, the risk or the people you need to support. We will come back with a clear view of where AI can help, and where it shouldn’t.',
+} = Astro.props;
+---
+<section class="close grain grain-light ng-linen" aria-labelledby="close-title">
+  <div class="wrap inner">
+    <div class="copy" data-reveal>
+      <h2 id="close-title" class="display">{heading}</h2>
+      <p class="lead">{text}</p>
+      <a href="/contact" class="btn btn--primary">Start a conversation <Arrow /></a>
+    </div>
+    <Mosaic
+      class="art"
+      tone="light"
+      cols={3}
+      rows={3}
+      items={[
+        { k: 'drop', c: 0, r: 0, g: ['navy', 'teal'] },
+        { k: 'dome', c: 1, r: 0, g: ['terracotta', 'blush'], a: 90 },
+        { k: 'arch', c: 2, r: 0, h: 2, g: ['teal', 'navy'], a: 90 },
+        { k: 'bullet', c: 0, r: 1, w: 2, g: ['violet', 'lavender'], a: 0 },
+        { k: 'circle', c: 0.55, r: 0.45, w: 1.1, h: 1.1, f: 'lavender', o: 0.32, blend: true },
+        { k: 'leaf', c: 0, r: 2, g: ['navy', 'teal'] },
+        { k: 'quarter', c: 1, r: 2, g: ['blush', 'lavender'] },
+        { k: 'circle', c: 2, r: 2, f: 'gold', clean: true },
+      ]}
+    />
+  </div>
+  <div class="wrap">
+    <p class="procure small">
+      <span>Women-owned small business (WOSB)</span>
+      <span>NAICS {naics.map((n) => n.code).join(', ')}</span>
+      <a href="/naics-codes">Procurement details</a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .close {
+    padding-block: clamp(80px, 10vw, 144px) var(--s6);
+  }
+  .inner { display: grid; grid-template-columns: 7fr 5fr; gap: var(--s8); align-items: center; }
+  .copy h2 { margin-bottom: var(--s5); }
+  .copy .lead { max-width: 46ch; margin-bottom: var(--s6); }
+  .inner :global(.art) { max-width: 360px; justify-self: end; width: 100%; }
+  .procure {
+    display: flex; flex-wrap: wrap; gap: var(--s2) var(--s6);
+    margin-top: clamp(64px, 8vw, 112px); padding-top: var(--s5);
+    border-top: 1px solid var(--line);
+    color: var(--navy);
+  }
+  .procure a { color: var(--navy); }
+  @media (max-width: 860px) {
+    .inner { grid-template-columns: 1fr; }
+    .inner :global(.art) { justify-self: start; max-width: 240px; }
+  }
+</style>

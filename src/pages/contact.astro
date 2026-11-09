@@ -1,0 +1,176 @@
+---
+import Base from '../layouts/Base.astro';
+import Mosaic from '../components/Mosaic.astro';
+import { email } from '../data/site';
+---
+<Base
+  title="Contact"
+  description="Work with nForce AI. Federal agencies, partners and vendors can reach us about AI anomaly detection, identity security, citizen services and AI training."
+  closeBand={false}
+>
+  <section class="contact">
+    <div class="wrap grid">
+      <div class="intro">
+        <h1>Let’s build the future together</h1>
+        <p class="lead muted">
+          Whether you’re a federal agency, a potential partner or a vendor, tell us what you’re working on. We’ll reply by email.
+        </p>
+        <div class="direct">
+          <h2>Prefer email?</h2>
+          <p><a href={`mailto:${email}`}>{email}</a></p>
+        </div>
+        <Mosaic
+          class="contact-art"
+          tone="light"
+          cols={4}
+          rows={1}
+          items={[
+            { k: 'leaf', c: 0, r: 0, g: ['blush', 'terracotta'] },
+            { k: 'bullet', c: 1, r: 0, w: 2, g: ['navy', 'violet'], a: 0 },
+            { k: 'circle', c: 3, r: 0, f: 'gold', clean: true },
+          ]}
+        />
+      </div>
+
+      <form class="form grain grain-light ng-mist" method="post" action="/api/contact" novalidate data-contact>
+        <div class="row">
+          <div class="field">
+            <label for="firstName">First name</label>
+            <input id="firstName" name="firstName" autocomplete="given-name" required maxlength="100" />
+          </div>
+          <div class="field">
+            <label for="lastName">Last name</label>
+            <input id="lastName" name="lastName" autocomplete="family-name" required maxlength="100" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="email">Work email</label>
+          <input id="email" name="email" type="email" autocomplete="email" required maxlength="200" />
+        </div>
+        <div class="field">
+          <label for="organization">Company or agency <span class="opt">(optional)</span></label>
+          <input id="organization" name="organization" autocomplete="organization" maxlength="200" />
+        </div>
+        <div class="field">
+          <label for="message">How can we help?</label>
+          <textarea id="message" name="message" rows="6" required maxlength="5000"></textarea>
+        </div>
+        <div class="hp" aria-hidden="true">
+          <label for="website">Leave this empty</label>
+          <input id="website" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+        <div class="consent">
+          <input id="consent" name="consent" type="checkbox" value="yes" required />
+          <label for="consent">I agree to the <a href="/terms-of-use">Terms of Use</a> and to nForce AI contacting me about this message.</label>
+        </div>
+        <p class="error" role="alert" data-error hidden></p>
+        <button type="submit" class="btn btn--primary">Send message</button>
+        <p class="small muted">We don’t store your details after we reply. See our <a href="/legal">privacy policy</a>.</p>
+      </form>
+
+      <div class="sent" data-sent hidden tabindex="-1">
+        <h2>Thanks, your message is on its way</h2>
+        <p class="lead muted">We’ll be in touch by email soon.</p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .contact { padding-block: clamp(48px, 7vw, 104px) clamp(80px, 10vw, 144px); }
+  .grid { display: grid; grid-template-columns: 5fr 6fr; gap: clamp(40px, 7vw, 128px); align-items: start; }
+  h1 { margin-bottom: var(--s5); max-width: 14ch; }
+  .intro .lead { max-width: 40ch; }
+  .direct { margin-top: var(--s7); padding-top: var(--s5); border-top: 1px solid var(--line); }
+  .direct h2 { font-size: 1rem; margin-bottom: var(--s2); letter-spacing: 0; }
+  .direct a { font-size: 1.25rem; font-weight: 600; }
+  .intro :global(.contact-art) { max-width: 260px; margin-top: var(--s8); }
+
+  .form { display: grid; gap: var(--s5); padding: clamp(24px, 4vw, 48px); border-radius: var(--radius-card); }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s5); }
+  .field { display: grid; gap: var(--s2); }
+  label { font-weight: 600; font-size: 1rem; }
+  .opt { font-weight: 400; color: var(--ink-muted); }
+  input:not([type='checkbox']), textarea {
+    width: 100%; min-height: 52px; padding: var(--s3) var(--s4);
+    font: 400 1.0625rem/1.5 var(--font); color: var(--navy);
+    background: var(--white); border: 1px solid #c3c8d3; border-radius: 8px;
+    transition: border-color 200ms var(--ease), box-shadow 200ms var(--ease);
+  }
+  textarea { resize: vertical; min-height: 160px; }
+  input:not([type='checkbox']):focus, textarea:focus { outline: none; border-color: var(--navy); box-shadow: 0 0 0 3px rgb(19 29 54 / 0.15); }
+  [aria-invalid='true'] { border-color: var(--red) !important; }
+  .consent { display: grid; grid-template-columns: 22px 1fr; gap: var(--s3); align-items: start; }
+  .consent input { width: 22px; height: 22px; margin: 2px 0 0; accent-color: var(--navy); }
+  .consent label { font-weight: 400; font-size: var(--fs-small); line-height: 1.5; }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .error { color: var(--red-deep); font-weight: 600; font-size: var(--fs-small); }
+  .form .btn { justify-self: start; border: 0; cursor: pointer; }
+  .form .btn[disabled] { opacity: 0.6; cursor: progress; }
+  .sent { grid-column: 2; background: var(--navy); color: var(--white); padding: clamp(32px, 4vw, 56px); border-radius: var(--radius-card); }
+  .sent h2 { margin-bottom: var(--s3); }
+  .sent .muted { color: var(--on-navy-muted); }
+
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr; }
+    .sent { grid-column: auto; }
+  }
+  @media (max-width: 520px) { .row { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-contact]');
+  const errorEl = document.querySelector<HTMLElement>('[data-error]');
+  const sent = document.querySelector<HTMLElement>('[data-sent]');
+
+  const showSent = () => {
+    if (form) form.hidden = true;
+    if (sent) { sent.hidden = false; sent.focus(); }
+  };
+  const showError = (msg: string) => {
+    if (!errorEl) return;
+    errorEl.textContent = msg;
+    errorEl.hidden = false;
+  };
+
+  const status = new URLSearchParams(location.search).get('status');
+  if (status === 'sent') showSent();
+  if (status === 'error') showError('Your message wasn’t sent. Email us at contact@nforceai.com instead.');
+
+  if (form) {
+    form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('[required]').forEach((el) =>
+      el.addEventListener('input', () => el.removeAttribute('aria-invalid')),
+    );
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorEl!.hidden = true;
+      let firstBad: HTMLElement | null = null;
+      form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('[required]').forEach((el) => {
+        const bad = el.type === 'checkbox' ? !(el as HTMLInputElement).checked : !el.value.trim() || (el.type === 'email' && !el.checkValidity());
+        el.setAttribute('aria-invalid', String(bad));
+        if (bad && !firstBad) firstBad = el;
+      });
+      if (firstBad) {
+        showError('Fill in your name, a valid email, a message and the consent box.');
+        (firstBad as HTMLElement).focus();
+        return;
+      }
+
+      const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+      button.disabled = true;
+      button.textContent = 'Sending…';
+      try {
+        const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+        const body = await res.json().catch(() => ({ ok: false }));
+        if (body.ok) showSent();
+        else showError(body.error ?? 'Your message wasn’t sent. Email us at contact@nforceai.com instead.');
+      } catch {
+        showError('Your message wasn’t sent. Check your connection, or email us at contact@nforceai.com.');
+      } finally {
+        button.disabled = false;
+        button.textContent = 'Send message';
+      }
+    });
+  }
+</script>

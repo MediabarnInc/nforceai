@@ -1,0 +1,161 @@
+---
+/**
+ * Interactive explainer: synthetic payment records, three flagged,
+ * each showing the rule, model and human-review layers behind the flag.
+ * All data is invented for illustration and labelled as such.
+ */
+type Layer = { rule: string; model: string; review: string; status: string };
+type Rec = { id: string; vendor: string; program: string; amount: string; flag?: Layer };
+
+const records: Rec[] = [
+  { id: 'PAY-10411', vendor: 'Vendor 1182', program: 'Office supplies', amount: '$3,410' },
+  { id: 'PAY-10418', vendor: 'Vendor 2041', program: 'Facilities maintenance', amount: '$48,200', flag: {
+    rule: 'Invoice number matches a payment to the same vendor 12 days earlier.',
+    model: 'Amount is 4.1 times this vendor’s 12-month median.',
+    review: 'Assigned to the audit team with both payments attached.',
+    status: 'In review',
+  } },
+  { id: 'PAY-10419', vendor: 'Vendor 0912', program: 'Fleet fuel', amount: '$7,860' },
+  { id: 'PAY-10422', vendor: 'Vendor 0377', program: 'IT services', amount: '$24,950', flag: {
+    rule: 'Amount sits $50 under the $25,000 approval threshold, the third such invoice this quarter.',
+    model: 'Matches the split-purchase pattern seen in previously confirmed cases.',
+    review: 'Waiting for a procurement reviewer.',
+    status: 'Queued',
+  } },
+  { id: 'PAY-10425', vendor: 'Vendor 1520', program: 'Training', amount: '$12,000' },
+  { id: 'PAY-10427', vendor: 'Vendor 2204', program: 'Lab equipment', amount: '$31,775' },
+  { id: 'PAY-10431', vendor: 'Vendor 3310', program: 'Grant subrecipient', amount: '$112,000', flag: {
+    rule: 'Vendor was registered nine days before the award date.',
+    model: 'Shares a bank account with another vendor in the same award network.',
+    review: 'Confirmed by an auditor and referred to investigations.',
+    status: 'Confirmed',
+  } },
+  { id: 'PAY-10433', vendor: 'Vendor 0145', program: 'Utilities', amount: '$9,140' },
+];
+const first = records.find((r) => r.flag)!;
+---
+<div class="explorer" data-explorer>
+  <div class="list-panel">
+    <div class="list-head">
+      <p class="small"><strong>{records.length} payments</strong> · {records.filter((r) => r.flag).length} flagged</p>
+      <label class="toggle small">
+        <input type="checkbox" data-only-flagged />
+        <span>Flagged only</span>
+      </label>
+    </div>
+    <ul class="records" role="list">
+      {records.map((r) => (
+        <li data-flagged={r.flag ? 'true' : 'false'}>
+          <button
+            type="button"
+            class="rec"
+            data-id={r.id}
+            aria-pressed={r.id === first.id ? 'true' : 'false'}
+            disabled={!r.flag}
+            aria-label={r.flag ? `${r.id}, ${r.vendor}, ${r.amount}, flagged. Show reasons.` : `${r.id}, ${r.vendor}, ${r.amount}, no flags`}
+          >
+            <span class="mark" aria-hidden="true">{r.flag ? <i class="dot" /> : <i class="pill" />}</span>
+            <span class="id">{r.id}</span>
+            <span class="vendor">{r.vendor}<span class="prog">{r.program}</span></span>
+            <span class="amt">{r.amount}</span>
+          </button>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <div class="detail" aria-live="polite">
+    {records.filter((r) => r.flag).map((r) => (
+      <article class="why" data-detail={r.id} hidden={r.id !== first.id}>
+        <header>
+          <p class="small muted">{r.vendor} · {r.program}</p>
+          <h3>{r.id} <span class="status">{r.flag!.status}</span></h3>
+          <p class="amount">{r.amount}</p>
+        </header>
+        <ol>
+          <li><span class="layer">Business rule</span><p>{r.flag!.rule}</p></li>
+          <li><span class="layer">Model signal</span><p>{r.flag!.model}</p></li>
+          <li><span class="layer">Human review</span><p>{r.flag!.review}</p></li>
+        </ol>
+      </article>
+    ))}
+  </div>
+  <p class="note small muted">Illustrative example with invented data. It shows how a finding is explained, not a real agency, vendor or payment.</p>
+</div>
+
+<style>
+  .explorer {
+    display: grid; grid-template-columns: 7fr 5fr; gap: 0;
+    background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-card);
+    overflow: hidden;
+  }
+  .list-panel { border-right: 1px solid var(--line); }
+  .list-head { display: flex; justify-content: space-between; align-items: center; gap: var(--s4); padding: var(--s4) var(--s5); border-bottom: 1px solid var(--line); }
+  .toggle { display: inline-flex; align-items: center; gap: var(--s2); cursor: pointer; }
+  .toggle input { width: 18px; height: 18px; accent-color: var(--navy); }
+  .records { list-style: none; margin: 0; padding: 0; }
+  .records li + li { border-top: 1px solid var(--line); }
+  .explorer.only-flagged li[data-flagged='false'] { display: none; }
+  .rec {
+    display: grid; grid-template-columns: 20px 96px 1fr auto; align-items: center; gap: var(--s4);
+    width: 100%; padding: var(--s4) var(--s5); background: none; border: 0; text-align: left;
+    font: 400 var(--fs-small)/1.4 var(--font); color: var(--navy); cursor: pointer;
+    transition: background-color 200ms var(--ease);
+  }
+  .rec:disabled { cursor: default; color: var(--ink-muted); }
+  .rec:not(:disabled):hover { background: var(--smoke); }
+  .rec[aria-pressed='true'] { background: var(--navy); color: var(--white); }
+  .rec[aria-pressed='true']:not(:disabled):hover { background: #232e4d; }
+  .rec[aria-pressed='true'] .prog { color: var(--on-navy-muted); }
+  .id { font-variant-numeric: tabular-nums; font-weight: 600; }
+  .vendor { display: grid; }
+  .prog { color: var(--ink-muted); }
+  .amt { font-variant-numeric: tabular-nums; text-align: right; }
+  .mark i { display: block; }
+  .dot { width: 14px; height: 14px; border-radius: 50%; background: var(--gold); }
+  .pill { width: 18px; height: 8px; border-radius: 4px; background: var(--lavender); }
+
+  .detail { padding: var(--s6) var(--s5); background: var(--smoke); }
+  .why header { margin-bottom: var(--s5); }
+  .why h3 { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s3); margin-top: var(--s2); }
+  .status { font-size: 0.875rem; font-weight: 600; letter-spacing: 0; padding: 4px 12px; border-radius: 999px; background: var(--gold); color: var(--navy); }
+  .amount { font-size: 2rem; font-weight: 300; letter-spacing: -0.02em; margin-top: var(--s2); }
+  .why ol { list-style: none; margin: 0; padding: 0; counter-reset: l; }
+  .why li { position: relative; padding: var(--s4) 0 var(--s4) var(--s6); border-top: 1px solid var(--line); }
+  .why li::before {
+    counter-increment: l; content: counter(l);
+    position: absolute; left: 0; top: var(--s4);
+    font-weight: 300; font-size: 1.25rem; line-height: 1.3; color: var(--terracotta);
+  }
+  .layer { display: block; font-weight: 600; margin-bottom: var(--s1); }
+  .note { grid-column: 1 / -1; padding: var(--s3) var(--s5); border-top: 1px solid var(--line); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .why:not([hidden]) { animation: in 400ms var(--ease); }
+    @keyframes in { from { opacity: 0; transform: translateY(8px); } }
+  }
+  @media (max-width: 860px) {
+    .explorer { grid-template-columns: 1fr; }
+    .list-panel { border-right: 0; border-bottom: 1px solid var(--line); }
+    .rec { grid-template-columns: 16px 1fr auto; }
+    .id { grid-column: 2; }
+    .vendor { grid-column: 2; grid-row: 2; }
+    .amt { grid-row: 1; grid-column: 3; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-explorer]').forEach((root) => {
+    const buttons = Array.from(root.querySelectorAll<HTMLButtonElement>('.rec:not(:disabled)'));
+    const details = Array.from(root.querySelectorAll<HTMLElement>('[data-detail]'));
+    buttons.forEach((b) =>
+      b.addEventListener('click', () => {
+        buttons.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+        details.forEach((d) => (d.hidden = d.dataset.detail !== b.dataset.id));
+      }),
+    );
+    root.querySelector<HTMLInputElement>('[data-only-flagged]')?.addEventListener('change', (e) => {
+      root.classList.toggle('only-flagged', (e.target as HTMLInputElement).checked);
+    });
+  });
+</script>

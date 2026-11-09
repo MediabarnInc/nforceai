@@ -1,0 +1,342 @@
+---
+import Base from '../layouts/Base.astro';
+import HeroGraphic from '../components/HeroGraphic.astro';
+import Mosaic from '../components/Mosaic.astro';
+import Arrow from '../components/Arrow.astro';
+import Shape from '../components/Shape.astro';
+import { articles, certifications, sources } from '../data/site';
+
+const steps = [
+  {
+    title: 'Business rules',
+    text: 'We codify the policies your auditors already enforce: duplicate payments, misclassification, change orders, vendor preference and conflicts of interest.',
+  },
+  {
+    title: 'Explainable models',
+    text: 'Supervised models learn from reviewer feedback to cut false positives. Unsupervised models surface patterns no rule anticipated. Every score shows the evidence behind it.',
+  },
+  {
+    title: 'Human review',
+    text: 'Subject matter experts and auditors validate each anomaly before it becomes a finding, so results hold up to audit and investigative scrutiny.',
+  },
+];
+
+const solutions = [
+  {
+    href: '/ai-anomaly-detection-for-government-agencies',
+    title: 'AI anomaly detection and fraud prevention',
+    text: 'Stop improper payments and surface fraud with findings an auditor can trace.',
+    shape: 'circle', fill: 'var(--gold)',
+  },
+  {
+    href: '/voice-biometrics-security-for-the-us-public-sector',
+    title: 'AI identity management',
+    text: 'Verify callers by voice and catch deepfake audio before it reaches your systems.',
+    shape: 'ring', fill: 'var(--terracotta)',
+  },
+  {
+    href: '/enhanced-citizen-solutions',
+    title: 'Citizen experience',
+    text: 'Faster, clearer public services, from benefits processing to permits and grants.',
+    shape: 'arch', fill: 'var(--violet)',
+  },
+  {
+    href: '/ai-corporate-training',
+    title: 'Corporate AI training and enablement',
+    text: 'Role-based programs that make your workforce confident with AI, from leaders to developers.',
+    shape: 'quarter', fill: 'var(--teal)',
+  },
+] as const;
+---
+<Base
+  title="nForce AI"
+  description="nForce AI is a women-owned AI company helping U.S. agencies detect anomalies, stop improper payments and explain every finding to an auditor."
+>
+  <!-- Hero -->
+  <section class="hero grain grain-light ng-dawn">
+    <HeroGraphic />
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <h1 class="display">Find the fraud hiding in public data.</h1>
+        <p class="lead muted">
+          nForce AI helps U.S. agencies spot anomalies, stop improper payments and explain every finding well enough to stand up to an audit.
+        </p>
+        <div class="actions">
+          <a href="/contact" class="btn btn--primary">Work with us <Arrow /></a>
+          <a href="/ai-anomaly-detection-for-government-agencies" class="link-arrow"><span>See how detection works</span> <Arrow /></a>
+        </div>
+        <p class="credentials small">
+          Women-owned small business · Technical Advisory Chair, ATARC Fraud Detection and Risk Mitigation Working Group
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- The stakes -->
+  <section class="section grain grain-light ng-linen stakes">
+    <div class="wrap stakes-grid">
+      <div data-reveal>
+        <h2>Fraud moves faster than manual review.</h2>
+        <p class="lead muted stakes-text">
+          Agencies lose billions every year to fraud, waste, abuse and improper payments. Audits and sampling can’t keep pace with the volume, and legacy tools bury reviewers in false alarms.
+        </p>
+      </div>
+      <figure class="proof" data-reveal style="--delay:120ms">
+        <p>
+          In fiscal year 2023, the U.S. Treasury recovered
+          <strong class="numeral">$375 million</strong>
+          after adding machine learning to its check fraud detection. Check fraud had risen 385% since the pandemic.
+        </p>
+        <figcaption class="source">Source: <a href={sources.treasury}>U.S. Department of the Treasury, February 2024</a></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- The approach -->
+  <section class="section approach">
+    <div class="wrap approach-grid">
+      <div class="approach-head" data-reveal>
+        <h2>Rules, models and people check every record.</h2>
+        <p class="muted">
+          Our platform layers three checks, so a flag is accurate before anyone acts on it and explainable after.
+        </p>
+        <Mosaic
+          class="approach-art"
+          cols={4}
+          rows={2}
+          gap={8}
+          items={[
+            { k: 'arch', c: 0, r: 0, g: ['terracotta', 'apricot'] },
+            { k: 'drop', c: 1, r: 0, rot: 270, g: ['violet', 'navy'] },
+            { k: 'drop', c: 2, r: 0, g: ['red', 'apricot'] },
+            { k: 'dome', c: 3, r: 0, rot: 180, g: ['violet', 'lavender'] },
+            { k: 'bullet', c: 0, r: 1, w: 2, g: ['apricot', 'blush'], a: 0 },
+            { k: 'circle', c: 2, r: 1, f: 'gold', clean: true },
+            { k: 'arch', c: 3, r: 1, g: ['violet', 'navy'] },
+            { k: 'circle', c: 1.65, r: 0.35, w: 1.3, h: 1.3, f: 'blush', o: 0.7, blend: true },
+          ]}
+        />
+      </div>
+      <ol class="steps">
+        {steps.map((s, i) => (
+          <li data-reveal style={`--delay:${i * 100}ms`}>
+            <span class="step-n" aria-hidden="true">{i + 1}</span>
+            <div>
+              <h3>{s.title}</h3>
+              <p class="muted">{s.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+    <div class="wrap">
+      <ul class="traits" data-reveal>
+        <li><strong>Tailored</strong> to your mission, data and compliance requirements</li>
+        <li><strong>Explainable</strong> so every anomaly is transparent and defensible</li>
+        <li><strong>Resilient</strong> in cloud, on-premises or hybrid environments</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Proof -->
+  <section class="section bg-smoke grain grain-light ng-mist proof-section" aria-labelledby="proof-title">
+    <div class="wrap">
+      <h2 id="proof-title" class="proof-title" data-reveal>Results from the field</h2>
+      <div class="proof-grid">
+        <article class="case-main" data-reveal>
+          <div class="rings" aria-hidden="true">
+            <Shape kind="circle" fill="var(--terracotta)" gradient={['var(--terracotta)', 'var(--blush)']} angle={60} blend />
+            <Shape kind="circle" fill="var(--gold)" gradient={['var(--gold)', 'var(--terracotta)']} angle={120} blend />
+            <Shape kind="circle" fill="var(--blush)" gradient={['var(--blush)', 'var(--lavender)']} angle={90} blend />
+          </div>
+          <p class="case-lead">
+            In a 90-day pilot for a state revenue department, nForce analyzed 1.3 million sales tax records across two NAICS codes and found about
+            <strong class="numeral">$42 million</strong>
+            in collectible, unremitted sales tax over 36 months.
+          </p>
+          <a class="link-arrow" href={articles.taxGapCase.href}><span>Read the tax gap case study</span> <Arrow /></a>
+        </article>
+        <div class="case-side">
+          <article data-reveal style="--delay:100ms">
+            <h3>Disaster relief, redesigned</h3>
+            <p class="muted">For FEMA, we designed a digital relief prototype with automated workflows and an accessible applicant portal, projected to cut fund disbursement time by more than 40%.</p>
+            <a class="link-arrow" href={articles.femaCase.href}><span>Read the FEMA case study</span> <Arrow /></a>
+          </article>
+          <article data-reveal style="--delay:200ms">
+            <h3>Shaping the standard</h3>
+            <p class="muted">nForce AI serves as Technical Advisory Chair on the ATARC Fraud Detection and Risk Mitigation Working Group, helping agencies put Zero Trust into practice.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Solutions -->
+  <section class="section solutions" aria-labelledby="solutions-title">
+    <div class="wrap">
+      <div class="solutions-head" data-reveal>
+        <h2 id="solutions-title">Four ways we put AI to work</h2>
+        <p class="muted">Each one starts with the problem in front of your agency, not the technology behind it.</p>
+      </div>
+      <ul class="solution-list">
+        {solutions.map((s, i) => (
+          <li data-reveal style={`--delay:${i * 80}ms`}>
+            <a href={s.href} class="solution">
+              <span class="solution-shape" aria-hidden="true"><Shape kind={s.shape} fill={s.fill} /></span>
+              <span class="solution-title">{s.title}</span>
+              <span class="solution-text muted">{s.text}</span>
+              <span class="solution-arrow" aria-hidden="true"><Arrow /></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Trust -->
+  <section class="section bg-blush grain grain-light ng-linen trust" aria-labelledby="trust-title">
+    <div class="wrap trust-grid">
+      <div data-reveal>
+        <h2 id="trust-title">Trust built into every layer</h2>
+        <p class="lead">
+          Zero Trust is a practice, not a product. We build it into how data is governed, how models are explained and how results are reviewed.
+        </p>
+        <p class="muted">
+          As a women-owned small business, we bring a different perspective to a male-dominated field, and the same rigor federal programs demand.
+        </p>
+        <div class="trust-links">
+          <a class="link-arrow" href="/responsible-use-of-ai"><span>Our responsible AI commitments</span> <Arrow /></a>
+          <a class="link-arrow" href="/about-nforceai"><span>Meet the founders</span> <Arrow /></a>
+        </div>
+      </div>
+      <div class="cert-panel" data-reveal style="--delay:120ms">
+        <h3>Certifications and compliance</h3>
+        <ul>
+          {certifications.map((c) => <li>{c}</li>)}
+        </ul>
+        <p class="small muted">Aligned with CMMC, FedRAMP, NIST and ISO standards. Deployable in cloud, on-premises or hybrid environments.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Resources -->
+  <section class="section resources" aria-labelledby="res-title">
+    <div class="wrap">
+      <h2 id="res-title" data-reveal>Read the research</h2>
+      <ul class="res-list">
+        {[articles.taxCompliance, articles.taxGapCase, articles.femaCase].map((a, i) => (
+          <li data-reveal style={`--delay:${i * 80}ms`}>
+            <a href={a.href}>
+              <span class="small muted">{a.kind}</span>
+              <span class="res-title">{a.title}</span>
+              <Arrow />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* Hero */
+  .hero { position: relative; min-height: clamp(640px, 86vh, 880px); display: flex; align-items: center; padding-block: clamp(56px, 7vw, 104px); }
+  .hero-grid { display: block; }
+  .hero-copy { max-width: min(560px, 46%); }
+  .hero-copy h1 { max-width: 12ch; margin-bottom: var(--s5); }
+  .hero-copy .lead { max-width: 40ch; margin-bottom: var(--s6); }
+  .actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s5) var(--s6); }
+  .credentials { margin-top: var(--s7); padding-top: var(--s4); border-top: 1px solid var(--line); max-width: 46ch; color: var(--ink-muted); }
+
+  /* Stakes */
+  .stakes-grid { display: grid; grid-template-columns: 5fr 6fr; gap: clamp(40px, 6vw, 112px); align-items: end; }
+  .stakes h2 { max-width: 16ch; margin-bottom: var(--s5); }
+  .stakes-text { max-width: 44ch; }
+  .proof { margin: 0; border-left: 0; }
+  .proof p { font-size: var(--fs-lead); line-height: 1.55; max-width: 34ch; }
+  .proof .numeral { color: var(--navy); margin: var(--s3) 0; }
+  .proof figcaption { margin-top: var(--s5); }
+
+  /* Approach */
+  .approach-grid { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(40px, 6vw, 112px); }
+  .approach-head { position: sticky; top: 120px; align-self: start; }
+  .approach-head h2 { margin-bottom: var(--s4); max-width: 15ch; }
+  .approach-head p { max-width: 40ch; }
+  .approach-head :global(.approach-art) { margin-top: var(--s7); max-width: 280px; }
+  .steps { list-style: none; margin: 0; padding: 0; }
+  .steps li { display: grid; grid-template-columns: 72px 1fr; gap: var(--s5); padding-block: var(--s6); border-top: 1px solid var(--line); }
+  .steps li:last-child { border-bottom: 1px solid var(--line); }
+  .step-n { font-size: 3rem; font-weight: 300; line-height: 1; color: var(--terracotta); }
+  .steps h3 { margin-bottom: var(--s3); }
+  .traits {
+    list-style: none; padding: 0; margin: var(--s8) 0 0;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s5);
+  }
+  .traits li { font-size: 1.125rem; line-height: 1.5; padding-top: var(--s4); border-top: 3px solid var(--navy); }
+  .traits strong { font-weight: 600; }
+
+  /* Proof */
+  .proof-title { margin-bottom: var(--s7); }
+  .proof-grid { display: grid; grid-template-columns: 7fr 5fr; gap: clamp(32px, 5vw, 80px); }
+  .case-main { position: relative; padding-top: 140px; }
+  .rings { position: absolute; top: 0; left: 0; display: flex; }
+  .rings :global(svg) { width: 112px; height: 112px; }
+  .rings :global(svg + svg) { margin-left: -44px; }
+  .case-lead { font-size: clamp(1.375rem, 1.1rem + 0.8vw, 1.75rem); line-height: 1.45; max-width: 30ch; margin-bottom: var(--s6); }
+  .case-lead .numeral { margin: var(--s3) 0; }
+  .case-side { display: grid; gap: var(--s7); align-content: start; }
+  .case-side h3 { margin-bottom: var(--s3); }
+  .case-side p { margin-bottom: var(--s4); }
+
+  /* Solutions */
+  .solutions-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: var(--s4) var(--s7); margin-bottom: var(--s7); }
+  .solutions-head p { max-width: 40ch; }
+  .solution-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .solution {
+    display: grid; grid-template-columns: 64px 5fr 6fr 40px; align-items: center; gap: var(--s5);
+    padding-block: var(--s6); border-bottom: 1px solid var(--line);
+    text-decoration: none;
+  }
+  .solution-shape { width: 48px; height: 48px; transition: transform 500ms var(--ease); }
+  .solution-title { font-size: clamp(1.25rem, 1rem + 0.8vw, 1.75rem); font-weight: 600; letter-spacing: -0.01em; line-height: 1.25; }
+  .solution-arrow { justify-self: end; }
+  .solution-arrow :global(svg) { width: 28px; height: 28px; transition: transform 300ms var(--ease); }
+  .solution:hover .solution-title { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.2em; }
+  .solution:hover .solution-shape { transform: rotate(90deg) scale(1.1); }
+  .solution:hover .solution-arrow :global(svg) { transform: translateX(6px); }
+
+  /* Trust */
+  .trust-grid { display: grid; grid-template-columns: 7fr 5fr; gap: clamp(40px, 6vw, 112px); align-items: start; }
+  .trust h2 { margin-bottom: var(--s5); }
+  .trust .lead { max-width: 40ch; margin-bottom: var(--s4); }
+  .trust .muted { max-width: 52ch; }
+  .trust-links { display: flex; flex-wrap: wrap; gap: var(--s4) var(--s6); margin-top: var(--s6); }
+  .cert-panel { background: var(--white); padding: var(--s6); border-radius: var(--radius-card); }
+  .cert-panel h3 { font-size: 1.25rem; margin-bottom: var(--s4); }
+  .cert-panel ul { list-style: none; margin: 0 0 var(--s5); padding: 0; }
+  .cert-panel li { padding-block: var(--s2); border-bottom: 1px solid var(--line); }
+
+  /* Resources */
+  .resources h2 { margin-bottom: var(--s6); }
+  .res-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s5); }
+  .res-list a {
+    display: grid; gap: var(--s3); height: 100%;
+    padding: var(--s5) 0; border-top: 3px solid var(--navy);
+    text-decoration: none;
+  }
+  .res-title { font-size: 1.25rem; font-weight: 600; line-height: 1.35; letter-spacing: -0.01em; }
+  .res-list a:hover .res-title { text-decoration: underline; text-underline-offset: 0.2em; }
+  .res-list :global(svg) { width: 22px; height: 22px; }
+
+  @media (max-width: 900px) {
+    .hero { flex-direction: column; align-items: stretch; min-height: 0; padding-bottom: 0; }
+    .hero > :global(.hero-art) { order: 2; }
+    .hero-copy { max-width: none; }
+    .stakes-grid, .approach-grid, .proof-grid, .trust-grid { grid-template-columns: 1fr; }
+    .approach-head { position: static; }
+    .traits, .res-list { grid-template-columns: 1fr; }
+    .solution { grid-template-columns: 48px 1fr 32px; }
+    .solution-text { grid-column: 2 / 3; }
+    .solution-arrow { grid-row: 1; grid-column: 3; }
+  }
+</style>

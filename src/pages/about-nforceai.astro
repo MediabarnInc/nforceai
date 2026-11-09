@@ -1,0 +1,103 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Mosaic from '../components/Mosaic.astro';
+
+// TODO before launch: download these into /public/images so they survive the move off Webflow.
+const founders = [
+  {
+    name: 'Angela Berardelli',
+    role: 'Founder, VP Business Development',
+    photo: '/team/angela-berardelli.jpg',
+    frame: 'arch',
+  },
+  {
+    name: 'Paige Rollison',
+    role: 'Co-Founder, VP Operations',
+    photo: '/team/paige-rollison.jpg',
+    frame: 'circle',
+  },
+];
+---
+<Base
+  title="About nForce AI"
+  description="nForce AI is a women-owned small business (WOSB) bringing AI anomaly detection, identity security and workforce enablement to U.S. federal agencies."
+>
+  <PageHero
+    title="A women-owned business changing how government uses AI"
+    intro="Through our leadership, we aim to inspire and empower other women in technology, and prove that innovation knows no gender."
+    cta={false}
+  >
+    <Mosaic
+      tone="light"
+      cols={3}
+      rows={2}
+      items={[
+        { k: 'arch', c: 0, r: 0, g: ['blush', 'terracotta'], a: 90 },
+        { k: 'circle', c: 1, r: 0, f: 'navy' },
+        { k: 'drop', c: 2, r: 0, rot: 90, g: ['lavender', 'violet'] },
+        { k: 'bullet', c: 0, r: 1, w: 2, g: ['teal', 'lavender'], a: 0 },
+        { k: 'circle', c: 0.5, r: 0.5, f: 'lavender', o: 0.55, blend: true },
+        { k: 'circle', c: 2, r: 1, f: 'gold', clean: true },
+      ]}
+    />
+  </PageHero>
+
+  <section class="section bg-smoke grain grain-light ng-linen">
+    <div class="wrap story">
+      <h2 data-reveal>Fresh perspectives on hard problems</h2>
+      <div data-reveal style="--delay:120ms">
+        <p class="lead">
+          We are a women-owned small business (WOSB) in a traditionally male-dominated industry, and proud of it.
+        </p>
+        <p class="muted">
+          Our team brings different perspectives and new approaches to the complex challenges federal agencies face, from improper payments and identity fraud to the people side of AI adoption.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="founders-title">
+    <div class="wrap">
+      <div class="f-head" data-reveal>
+        <h2 id="founders-title">Our founders</h2>
+        <p class="muted">
+          With backgrounds across technology, federal agencies and digital innovation, our founders share one vision: transforming the U.S. federal government to better serve its citizens with AI.
+        </p>
+      </div>
+      <ul class="founders">
+        {founders.map((f, i) => (
+          <li data-reveal style={`--delay:${i * 120}ms`}>
+            <div class:list={['frame', f.frame]}>
+              <img src={f.photo} alt={`Portrait of ${f.name}`} width="520" height="620" loading="lazy" decoding="async" />
+            </div>
+            <h3>{f.name}</h3>
+            <p class="muted">{f.role}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .story { display: grid; grid-template-columns: 5fr 6fr; gap: clamp(40px, 6vw, 112px); }
+  .story h2 { max-width: 16ch; }
+  .story .lead { margin-bottom: var(--s4); max-width: 44ch; }
+  .story .muted { max-width: 52ch; }
+
+  .f-head { display: grid; grid-template-columns: 5fr 7fr; gap: var(--s4) var(--s8); align-items: end; margin-bottom: var(--s8); }
+  .f-head p { max-width: 54ch; }
+  .founders { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 96px); }
+  .founders li:nth-child(2) { margin-top: var(--s9); }
+  .frame { aspect-ratio: 5 / 6; overflow: hidden; background: var(--blush); margin-bottom: var(--s5); }
+  .frame img { width: 100%; height: 100%; object-fit: cover; }
+  .frame.arch { border-radius: 999px 999px 0 0; }
+  .frame.circle { aspect-ratio: 1; border-radius: 50%; }
+  .founders h3 { margin-bottom: var(--s1); }
+
+  @media (max-width: 760px) {
+    .story, .f-head, .founders { grid-template-columns: 1fr; }
+    .founders li:nth-child(2) { margin-top: 0; }
+  }
+</style>

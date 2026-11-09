@@ -1,0 +1,38 @@
+---
+import Base from '../layouts/Base.astro';
+import Arrow from '../components/Arrow.astro';
+import Mosaic from '../components/Mosaic.astro';
+---
+<Base title="Page not found" description="The page you were looking for isn’t here." closeBand={false}>
+  <section class="nf">
+    <div class="wrap grid">
+      <div>
+        <h1>This page is the anomaly</h1>
+        <p class="lead muted">We couldn’t find what you were looking for. It may have moved when we rebuilt the site.</p>
+        <a href="/" class="btn btn--primary">Back to the homepage <Arrow /></a>
+      </div>
+      <Mosaic
+        tone="light"
+        cols={3}
+        rows={3}
+        items={[
+          { k: 'arch', c: 0, r: 0, f: 'navy' },
+          { k: 'drop', c: 1, r: 0, rot: 270, f: 'navy' },
+          { k: 'drop', c: 2, r: 0, f: 'navy' },
+          { k: 'bullet', c: 0, r: 1, w: 2, g: ['navy', 'violet'], a: 0 },
+          { k: 'dome', c: 0, r: 2, rot: 180, f: 'navy' },
+          { k: 'arch', c: 1, r: 2, g: ['teal', 'navy'], a: 90 },
+          { k: 'circle', c: 2, r: 2, f: 'gold', clean: true },
+        ]}
+      />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf { padding-block: clamp(64px, 10vw, 160px); }
+  .grid { display: grid; grid-template-columns: 7fr 4fr; gap: var(--s8); align-items: center; }
+  h1 { margin-bottom: var(--s5); }
+  .lead { max-width: 44ch; margin-bottom: var(--s6); }
+  @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
+</style>

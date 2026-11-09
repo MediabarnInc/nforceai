@@ -1,0 +1,207 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Mosaic from '../components/Mosaic.astro';
+import Shape from '../components/Shape.astro';
+import ResourceLinks from '../components/ResourceLinks.astro';
+import { articles } from '../data/site';
+
+const offer = [
+  ['Demystify AI', 'A clear grounding in AI, machine learning and data-driven decision-making.'],
+  ['Find the opportunities', 'Pinpoint where AI can create real value in your organization.'],
+  ['Plan the rollout', 'Implementation roadmaps that guide planning and execution.'],
+  ['Align the teams', 'Cross-functional collaboration so adoption holds together across departments.'],
+];
+
+const tracks = [
+  { role: 'Public sector teams', title: 'AI essentials for government', text: 'Foundational knowledge for public sector professionals, focused on policy, compliance and citizen services.' },
+  { role: 'Analysts', title: 'AI for analysts and data professionals', text: 'Applied training for people who work with data, built around integrating AI into existing workflows.' },
+  { role: 'Compliance and risk', title: 'Responsible AI and compliance', text: 'A governance track covering ethics, regulatory requirements and risk management.' },
+  { role: 'Leaders', title: 'AI readiness for leaders', text: 'Strategy for decision-makers on aligning AI initiatives with organizational goals.' },
+  { role: 'Technology teams', title: 'AI enablement for technology and development teams', text: 'Helps technical teams build faster, ship smarter and scale responsibly, while growing fluency in applied AI.' },
+];
+
+const audiences = [
+  ['Corporations and enterprises', 'Equip teams to improve efficiency, drive innovation and stay competitive.'],
+  ['Federal agencies', 'Prepare everyone from policy makers to the people working with data, oversight and citizen-facing systems.'],
+  ['Managed service providers', 'Add AI-powered automation and analytics to the services you offer clients.'],
+  ['Technology advisors and consultants', 'Build the AI literacy to guide clients through adoption and strategy.'],
+];
+---
+<Base
+  title="Corporate AI training and enablement"
+  description="Role-based AI training and enablement for federal agencies and enterprises: in-person workshops, live virtual sessions and custom courses that build lasting AI fluency."
+  closeHeading="Plan your training"
+  closeText="Tell us who you want to train and what they need to do with AI. We’ll shape a program around your teams, your tools and your goals."
+>
+  <PageHero
+    title="AI readiness starts with people, not platforms"
+    intro="We partner with organizations to build AI fluency and operational readiness, so teams can put AI to work effectively and responsibly."
+    cta={{ label: 'Plan your training', href: '/contact' }}
+  >
+    <Mosaic
+      tone="light"
+      cols={3}
+      rows={3}
+      items={[
+        { k: 'circle', c: 0, r: 0, g: ['teal', 'lavender'] },
+        { k: 'circle', c: 1, r: 0, g: ['teal', 'lavender'] },
+        { k: 'drop', c: 2, r: 0, f: 'navy' },
+        { k: 'circle', c: 0, r: 1, g: ['teal', 'lavender'] },
+        { k: 'circle', c: 1, r: 1, g: ['gold', 'terracotta'] },
+        { k: 'circle', c: 0.5, r: 0.5, f: 'lavender', o: 0.5, blend: true },
+        { k: 'arch', c: 2, r: 1, h: 2, g: ['violet', 'navy'], a: 90 },
+        { k: 'bullet', c: 0, r: 2, w: 2, f: 'navy' },
+      ]}
+    />
+  </PageHero>
+
+  <section class="section grain grain-light ng-linen why">
+    <div class="wrap why-grid">
+      <h2 data-reveal>Most AI initiatives stall because the workforce isn’t ready</h2>
+      <div data-reveal style="--delay:120ms">
+        <p class="lead">
+          Organizations rush AI into their processes and tools, and skip the most important step: helping each person understand and use it in their own role.
+        </p>
+        <p class="muted">
+          We work from the inside out. First we upskill your people and grow confident internal champions. Then we help roll out organization-wide strategies that last, turning AI from a buzzword into a capability your culture owns.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap offer">
+      <div data-reveal>
+        <h2>What we offer</h2>
+        <p class="muted">In-person workshops, live virtual sessions and custom digital courses, shaped around your organization.</p>
+      </div>
+      <ul>
+        {offer.map(([t, d], i) => (
+          <li data-reveal style={`--delay:${i * 60}ms`}>
+            <h3>{t}</h3>
+            <p class="muted">{d}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section bg-smoke grain grain-light ng-mist" aria-labelledby="tracks-title">
+    <div class="wrap">
+      <h2 id="tracks-title" class="tracks-title" data-reveal>Find the right track</h2>
+      <div class="chooser" data-chooser>
+        <div class="roles" role="tablist" aria-label="Who is the training for?">
+          {tracks.map((t, i) => (
+            <button type="button" role="tab" id={`tab-${i}`} aria-controls={`track-${i}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>
+              {t.role}
+            </button>
+          ))}
+        </div>
+        <div class="tracks">
+          {tracks.map((t, i) => (
+            <article class="track" id={`track-${i}`} role="tabpanel" aria-labelledby={`tab-${i}`} data-track>
+              <span class="track-shape" aria-hidden="true">
+                <Shape kind={(['arch', 'dots', 'ring', 'half', 'pill'] as const)[i]} fill={(['var(--violet)', 'var(--teal)', 'var(--terracotta)', 'var(--navy)', 'var(--teal)'] as const)[i]} />
+              </span>
+              <p class="small muted">For {t.role.toLowerCase()}</p>
+              <h3>{t.title}</h3>
+              <p>{t.text}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2 class="aud-title" data-reveal>Who it’s for</h2>
+      <dl class="aud">
+        {audiences.map(([t, d], i) => (
+          <div data-reveal style={`--delay:${(i % 2) * 90}ms`}>
+            <dt>{t}</dt>
+            <dd class="muted">{d}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <ResourceLinks items={[articles.efficiency, articles.femaCase]} />
+</Base>
+
+<style>
+  .why-grid { display: grid; grid-template-columns: 5fr 6fr; gap: clamp(40px, 6vw, 112px); align-items: start; }
+  .why h2 { max-width: 18ch; }
+  .why .lead { margin-bottom: var(--s4); max-width: 46ch; }
+  .why .muted { max-width: 52ch; }
+
+  .offer { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(40px, 6vw, 112px); }
+  .offer h2 { margin-bottom: var(--s4); }
+  .offer .muted { max-width: 40ch; }
+  .offer ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--s6); }
+  .offer li { padding-block: var(--s5); border-top: 1px solid var(--line); }
+  .offer h3 { font-size: 1.25rem; margin-bottom: var(--s2); }
+
+  .tracks-title { margin-bottom: var(--s6); }
+  .chooser { display: grid; grid-template-columns: 4fr 8fr; gap: var(--s6); }
+  .roles { display: flex; flex-direction: column; gap: var(--s2); }
+  .roles button {
+    text-align: left; min-height: 52px; padding: var(--s3) var(--s5);
+    border: 1px solid var(--line); border-radius: 999px; background: var(--white);
+    font: 500 1rem/1.3 var(--font); color: var(--navy); cursor: pointer;
+    transition: background-color 200ms var(--ease), color 200ms var(--ease);
+  }
+  .roles button:hover { border-color: var(--navy); }
+  .roles button[aria-selected='true'] { background: var(--navy); color: var(--white); border-color: var(--navy); }
+  .tracks { display: grid; gap: var(--s5); }
+  .track { background: var(--white); border-radius: var(--radius-card); padding: var(--s6); }
+  .track-shape { display: block; width: 64px; height: 64px; margin-bottom: var(--s5); }
+  .track h3 { margin: var(--s2) 0 var(--s3); }
+  .track p:last-child { max-width: 52ch; font-size: 1.125rem; }
+
+  :global(.js) .chooser .track { display: none; }
+  :global(.js) .chooser .track.is-active { display: block; animation: show 400ms var(--ease); }
+  @media (prefers-reduced-motion: reduce) { :global(.js) .chooser .track.is-active { animation: none; } }
+  @keyframes show { from { opacity: 0; transform: translateY(8px); } }
+  .chooser:not(.ready) .roles { display: none; }
+  .chooser:not(.ready) { grid-template-columns: 1fr; }
+
+  .aud-title { margin-bottom: var(--s6); }
+  .aud { margin: 0; display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--s8); }
+  .aud > div { padding-block: var(--s5); border-top: 1px solid var(--line); }
+  .aud dt { font-size: 1.25rem; font-weight: 600; margin-bottom: var(--s2); }
+  .aud dd { margin: 0; }
+
+  @media (max-width: 900px) {
+    .why-grid, .offer, .chooser, .aud { grid-template-columns: 1fr; }
+    .offer ul { grid-template-columns: 1fr; }
+    .roles { flex-direction: row; flex-wrap: wrap; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-chooser]').forEach((root) => {
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>('[data-track]'));
+    const select = (i: number, focus = false) => {
+      tabs.forEach((t, j) => {
+        t.setAttribute('aria-selected', String(i === j));
+        t.tabIndex = i === j ? 0 : -1;
+      });
+      panels.forEach((p, j) => p.classList.toggle('is-active', i === j));
+      if (focus) tabs[i].focus();
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => select(i));
+      t.addEventListener('keydown', (e) => {
+        const k = e.key;
+        if (k === 'ArrowDown' || k === 'ArrowRight') { e.preventDefault(); select((i + 1) % tabs.length, true); }
+        if (k === 'ArrowUp' || k === 'ArrowLeft') { e.preventDefault(); select((i - 1 + tabs.length) % tabs.length, true); }
+      });
+    });
+    root.classList.add('ready');
+    select(0);
+  });
+</script>

@@ -1,0 +1,139 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Mosaic from '../components/Mosaic.astro';
+import UseCases from '../components/UseCases.astro';
+import ResourceLinks from '../components/ResourceLinks.astro';
+import Arrow from '../components/Arrow.astro';
+import { articles } from '../data/site';
+
+const before = ['Paper forms and repeated data entry', 'Multiple approvals in sequence', 'Status unknown until someone calls', 'Answers only during office hours'];
+const after = ['One accessible, mobile-friendly application', 'Automated checks route simple cases forward', 'Real-time status and notifications', 'Common questions answered any time'];
+
+const features = [
+  ['Automated data centralization', 'BRAG unifies fragmented data sources into one knowledge graph, giving staff a complete view of each case.'],
+  ['Grounded answers', 'AI responses are checked against verified data before they reach a citizen, so people get information they can rely on.'],
+  ['Smarter resource allocation', 'Dynamic routing sends work where it can be handled fastest, reducing backlogs and operating costs.'],
+  ['Built-in data security', 'Compliance features protect sensitive citizen data and align with regulatory standards.'],
+];
+
+const cases = [
+  { title: 'Citizen service portals', text: 'Round-the-clock access to personalized information, automated answers to common questions and simpler applications.' },
+  { title: 'Automated benefits processing', text: 'Eligibility checks and approvals automated for programs such as unemployment, social services and disaster relief.' },
+  { title: 'Intelligent virtual assistants', text: 'AI assistants handle routine inquiries across channels and hand complex cases to staff.' },
+  { title: 'Permitting and licensing', text: 'Automated document review flags missing information and guides applicants, for faster, more transparent approvals.' },
+  { title: 'Grant management', text: 'AI simplifies applications and compliance checks in the administration of state and federal funding.' },
+  { title: 'Predictive resource planning', text: 'Forecast demand during disasters, tax season or public health emergencies and staff up ahead of it.' },
+];
+---
+<Base
+  title="AI-powered citizen experience solutions"
+  description="AI-driven digital experiences that help government agencies deliver faster, more accessible and more trusted citizen services while reducing operating costs."
+  closeText="Let’s build public services that are as easy to use as the best of the private sector, with the security, compliance and accessibility government requires."
+>
+  <PageHero
+    title="Modern citizen services, powered by AI"
+    intro="People expect government services to be as fast and simple as the apps they use every day. We help agencies get there: smarter, faster and more personal, without compromising security."
+  >
+    <Mosaic
+      tone="light"
+      cols={3}
+      rows={3}
+      items={[
+        { k: 'arch', c: 0, r: 0, g: ['violet', 'blush'], a: 90 },
+        { k: 'dome', c: 1, r: 0, rot: 180, f: 'navy' },
+        { k: 'circle', c: 2, r: 0, g: ['blush', 'lavender'] },
+        { k: 'arch', c: 0, r: 1, h: 2, g: ['teal', 'lavender'], a: 90 },
+        { k: 'bullet', c: 1, r: 1, w: 2, g: ['terracotta', 'blush'], a: 0 },
+        { k: 'dome', c: 1.5, r: 0.5, g: ['lavender', 'violet'], a: 90, o: 0.6, blend: true },
+        { k: 'drop', c: 1, r: 2, rot: 270, f: 'navy' },
+        { k: 'circle', c: 2, r: 2, g: ['violet', 'teal'] },
+      ]}
+    />
+  </PageHero>
+
+  <section class="section bg-smoke grain grain-light ng-linen" aria-labelledby="ba-title">
+    <div class="wrap">
+      <div class="ba-head" data-reveal>
+        <h2 id="ba-title">From waiting in line to done in one sitting</h2>
+        <p class="muted">Outdated systems, slow processes and fragmented services erode trust. Here is what changes when a service is rebuilt around the citizen.</p>
+      </div>
+      <div class="ba">
+        <div class="col before" data-reveal>
+          <h3>Before</h3>
+          <ul>{before.map((b) => <li>{b}</li>)}</ul>
+        </div>
+        <div class="arrow" aria-hidden="true"><Arrow /></div>
+        <div class="col after" data-reveal style="--delay:120ms">
+          <h3>After</h3>
+          <ul>{after.map((a) => <li>{a}</li>)}</ul>
+        </div>
+      </div>
+      <p class="fema" data-reveal>
+        We put this into practice for FEMA: a disaster relief prototype with automated workflows, an accessible applicant portal and real-time status tracking, projected to cut fund disbursement time by more than 40%.
+        <a class="link-arrow" href={articles.femaCase.href}><span>Read the FEMA case study</span> <Arrow /></a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap two">
+      <div class="sticky" data-reveal>
+        <h2>Citizen services with BRAG</h2>
+        <p class="muted">
+          BRAG, our Better Retrieval-Augmented Generation framework, grounds every AI interaction in verified data. Services become intelligent, reliable and aware of context, and citizens get answers they can trust.
+        </p>
+      </div>
+      <dl class="feat">
+        {features.map(([t, d], i) => (
+          <div data-reveal style={`--delay:${i * 60}ms`}>
+            <dt>{t}</dt>
+            <dd class="muted">{d}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <UseCases
+    heading="Real-world applications"
+    intro="Where AI is already making public services faster and more accessible."
+    items={cases}
+  />
+
+  <ResourceLinks items={[articles.efficiency, articles.femaCase]} />
+</Base>
+
+<style>
+  .ba-head { display: grid; grid-template-columns: 5fr 7fr; gap: var(--s4) var(--s8); align-items: end; margin-bottom: var(--s7); }
+  .ba-head p { max-width: 52ch; }
+  .ba { display: grid; grid-template-columns: 1fr 64px 1fr; align-items: stretch; }
+  .col { padding: var(--s6); border-radius: var(--radius-card); }
+  .before { background: var(--white); }
+  .after { background: var(--navy); color: var(--white); }
+  .col h3 { margin-bottom: var(--s4); }
+  .col ul { list-style: none; margin: 0; padding: 0; }
+  .col li { padding-block: var(--s3); border-top: 1px solid var(--line); font-size: 1.125rem; }
+  .after li { border-top-color: rgb(255 255 255 / 0.16); }
+  .before li { color: var(--ink-muted); }
+  .arrow { display: grid; place-items: center; }
+  .arrow :global(svg) { width: 32px; height: 32px; color: var(--terracotta); }
+  .fema { margin-top: var(--s7); max-width: 38rem; font-size: 1.125rem; }
+  .fema .link-arrow { margin-top: var(--s4); display: flex; width: fit-content; }
+
+  .two { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(40px, 6vw, 112px); }
+  .sticky { position: sticky; top: 120px; align-self: start; }
+  .two h2 { margin-bottom: var(--s5); }
+  .feat { margin: 0; }
+  .feat > div { padding-block: var(--s5); border-top: 1px solid var(--line); }
+  .feat > div:last-child { border-bottom: 1px solid var(--line); }
+  .feat dt { font-size: 1.25rem; font-weight: 600; margin-bottom: var(--s2); }
+  .feat dd { margin: 0; max-width: 36rem; }
+
+  @media (max-width: 900px) {
+    .ba-head, .two { grid-template-columns: 1fr; }
+    .ba { grid-template-columns: 1fr; gap: var(--s4); }
+    .arrow { transform: rotate(90deg); }
+    .sticky { position: static; }
+  }
+</style>

@@ -1,0 +1,36 @@
+---
+import Arrow from './Arrow.astro';
+
+interface Props {
+  title: string;
+  intro: string;
+  cta?: { label: string; href: string } | false;
+  tone?: 'light' | 'navy';
+}
+const { title, intro, cta = { label: 'Work with us', href: '/contact' }, tone = 'light' } = Astro.props;
+const hasArt = Astro.slots.has('default');
+---
+<section class:list={['page-hero grain', tone === 'navy' ? 'grain-light ng-linen' : 'grain-light ng-dawn', { 'has-art': hasArt }]}>
+  <div class="wrap grid-hero">
+    <div class="copy">
+      <h1>{title}</h1>
+      <p class="lead muted">{intro}</p>
+      {cta && <a href={cta.href} class="btn btn--primary">{cta.label} <Arrow /></a>}
+    </div>
+    {hasArt && <div class="art"><slot /></div>}
+  </div>
+</section>
+
+<style>
+  .page-hero { padding-block: clamp(48px, 7vw, 104px) clamp(56px, 8vw, 112px); }
+  .grid-hero { display: grid; grid-template-columns: 1fr; gap: clamp(32px, 5vw, 80px); align-items: center; }
+  .has-art .grid-hero { grid-template-columns: 7fr 5fr; }
+  h1 { max-width: 20ch; margin-bottom: var(--s5); }
+  .lead { max-width: 52ch; margin-bottom: var(--s6); }
+  .copy > :last-child { margin-bottom: 0; }
+  .art { width: 100%; max-width: 440px; justify-self: end; }
+  @media (max-width: 900px) {
+    .has-art .grid-hero { grid-template-columns: 1fr; }
+    .art { max-width: 320px; justify-self: start; }
+  }
+</style>

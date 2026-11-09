@@ -1,0 +1,22 @@
+{
+  "name": "nforceai-site",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "start": "HOST=0.0.0.0 node ./dist/server/entry.mjs",
+    "check:slop": "npx impeccable detect src/"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@astrojs/node": "^11.1.11",
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource-variable/sora": "^5.3.0",
+    "astro": "^7.4.7"
+  }
+}

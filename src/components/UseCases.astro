@@ -1,0 +1,47 @@
+---
+import Shape, { type ShapeKind } from './Shape.astro';
+
+interface Props {
+  heading: string;
+  intro?: string;
+  items: { title: string; text: string }[];
+  tone?: 'light' | 'smoke';
+}
+const { heading, intro, items, tone = 'smoke' } = Astro.props;
+const kinds: ShapeKind[] = ['quarter', 'half', 'circle', 'arch', 'dots', 'ring'];
+const fills = ['var(--terracotta)', 'var(--navy)', 'var(--violet)', 'var(--terracotta)', 'var(--navy)', 'var(--teal)'];
+---
+<section class:list={['section', { 'bg-smoke grain grain-light ng-mist': tone === 'smoke' }]}>
+  <div class="wrap">
+    <div class="head" data-reveal>
+      <h2>{heading}</h2>
+      {intro && <p class="muted">{intro}</p>}
+    </div>
+    <ul class="cases">
+      {items.map((it, i) => (
+        <li data-reveal style={`--delay:${(i % 2) * 90}ms`}>
+          <span class="mark" aria-hidden="true">
+            <Shape kind={kinds[i % kinds.length]} fill={fills[i % fills.length]} rotate={(i % 4) * 90 as 0 | 90 | 180 | 270} />
+          </span>
+          <div>
+            <h3>{it.title}</h3>
+            <p class="muted">{it.text}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .head { display: grid; grid-template-columns: 5fr 7fr; gap: var(--s4) var(--s8); align-items: end; margin-bottom: var(--s7); }
+  .head p { max-width: 52ch; }
+  .cases { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--s8); }
+  .cases li { display: grid; grid-template-columns: 40px 1fr; gap: var(--s5); padding-block: var(--s6); border-top: 1px solid var(--line); }
+  .mark { width: 40px; height: 40px; transition: transform 500ms var(--ease); }
+  .cases li:hover .mark { transform: rotate(90deg); }
+  h3 { font-size: 1.25rem; margin-bottom: var(--s2); }
+  @media (max-width: 860px) {
+    .head, .cases { grid-template-columns: 1fr; }
+  }
+</style>

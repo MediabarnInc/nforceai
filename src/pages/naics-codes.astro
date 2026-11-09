@@ -1,0 +1,60 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import { naics, certifications, email } from '../data/site';
+---
+<Base
+  title="Our NAICS codes"
+  description="Procurement details for nForce AI: NAICS codes, women-owned small business (WOSB) status and certifications."
+>
+  <PageHero
+    title="Procurement details"
+    intro="Everything a contracting officer or teaming partner needs to work with nForce AI."
+    cta={false}
+  />
+
+  <section class="section--tight">
+    <div class="wrap layout">
+      <div class="block" data-reveal>
+        <h2>Our NAICS codes</h2>
+        <table>
+          <caption class="sr-only">NAICS codes for nForce AI</caption>
+          <thead><tr><th scope="col">Code</th><th scope="col">Industry</th></tr></thead>
+          <tbody>
+            {naics.map((n) => (
+              <tr><td class="code">{n.code}</td><td>{n.title}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <aside class="facts grain grain-light ng-mist" data-reveal style="--delay:120ms">
+        <div>
+          <h3>Business status</h3>
+          <p>Women-owned small business (WOSB)</p>
+        </div>
+        <div>
+          <h3>Certifications and compliance</h3>
+          <ul>{certifications.map((c) => <li>{c}</li>)}</ul>
+        </div>
+        <div>
+          <h3>Contracting contact</h3>
+          <p><a href={`mailto:${email}`}>{email}</a></p>
+        </div>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .layout { display: grid; grid-template-columns: 7fr 4fr; gap: clamp(40px, 6vw, 112px); align-items: start; }
+  h2 { margin-bottom: var(--s5); }
+  table { width: 100%; border-collapse: collapse; font-size: 1.125rem; }
+  th { text-align: left; font-size: var(--fs-small); font-weight: 600; color: var(--ink-muted); padding: var(--s3) 0; border-bottom: 2px solid var(--navy); }
+  td { padding: var(--s4) 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .code { width: 120px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .facts { border-radius: var(--radius-card); padding: var(--s6); display: grid; gap: var(--s6); }
+  .facts h3 { font-size: 1rem; margin-bottom: var(--s2); }
+  .facts ul { list-style: none; margin: 0; padding: 0; }
+  .facts li { padding-block: var(--s1); }
+  @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+</style>

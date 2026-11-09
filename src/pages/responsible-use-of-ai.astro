@@ -1,0 +1,93 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Shape from '../components/Shape.astro';
+
+const pillars = [
+  {
+    title: 'Data governance',
+    text: 'AI should respect the regulations and policies it operates under. We keep full oversight of how data is used, in line with federal standards. Accountability is built in, not added later.',
+    shape: 'square', fill: 'var(--navy)',
+  },
+  {
+    title: 'Data integrity',
+    text: 'Decisions are only as good as the data behind them. We protect accuracy and consistency across the data lifecycle, reducing the risk of bias and producing reliable results.',
+    shape: 'circle', fill: 'var(--terracotta)',
+  },
+  {
+    title: 'Data quality',
+    text: 'Clean, relevant and complete datasets are the foundation of our models. Better data means better performance, and mission-critical work leaves no room for error.',
+    shape: 'arch', fill: 'var(--violet)',
+  },
+] as const;
+
+const commitments = [
+  ['Every operation is explainable', 'You can see how data was processed and why a decision was made.'],
+  ['Every result is traceable', 'Findings link back to the records and rules that produced them.'],
+  ['Every decision is auditable', 'Reviews, overrides and outcomes are recorded for oversight.'],
+  ['People stay in charge', 'Subject matter experts validate findings before anyone acts on them.'],
+];
+---
+<Base
+  title="Responsible use of AI"
+  description="How nForce AI practices responsible AI: data governance, integrity and quality, with explainable, traceable and auditable operations built for federal standards."
+>
+  <PageHero
+    title="Responsible AI is a practice, not a philosophy"
+    intro="AI in the public sector has to earn trust. Our approach is built on accountability, transparency and the standards federal missions require."
+    cta={false}
+    tone="navy"
+  />
+
+  <section class="section">
+    <div class="wrap">
+      <h2 class="p-title" data-reveal>Three foundations</h2>
+      <div class="pillars">
+        {pillars.map((p, i) => (
+          <article data-reveal style={`--delay:${i * 100}ms`}>
+            <span class="p-shape" aria-hidden="true"><Shape kind={p.shape} fill={p.fill} /></span>
+            <h3>{p.title}</h3>
+            <p class="muted">{p.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-blush grain grain-light ng-linen">
+    <div class="wrap commit">
+      <div data-reveal>
+        <h2>No black boxes</h2>
+        <p class="lead">The goal is simple: better decisions, clearer processes and stronger trust.</p>
+      </div>
+      <dl>
+        {commitments.map(([t, d], i) => (
+          <div data-reveal style={`--delay:${i * 60}ms`}>
+            <dt>{t}</dt>
+            <dd class="muted">{d}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .p-title { margin-bottom: var(--s7); }
+  .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s7); }
+  .pillars article { padding-top: var(--s5); border-top: 3px solid var(--navy); }
+  .p-shape { display: block; width: 48px; height: 48px; margin-bottom: var(--s5); }
+  .pillars h3 { margin-bottom: var(--s3); }
+
+  .commit { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(40px, 6vw, 112px); }
+  .commit h2 { margin-bottom: var(--s4); }
+  .commit .lead { max-width: 30ch; }
+  .commit dl { margin: 0; }
+  .commit dl > div { padding-block: var(--s5); border-top: 1px solid rgb(19 29 54 / 0.16); }
+  .commit dt { font-size: 1.25rem; font-weight: 600; margin-bottom: var(--s2); }
+  .commit dd { margin: 0; }
+
+  @media (max-width: 900px) {
+    .pillars, .commit { grid-template-columns: 1fr; }
+  }
+</style>

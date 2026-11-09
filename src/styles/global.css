@@ -1,0 +1,186 @@
+@import '@fontsource-variable/sora';
+
+:root {
+  --navy: #131d36;
+  --gold: #c49832;
+  --red: #d6364c;
+  --red-deep: #b92b3f;
+  --terracotta: #d17453;
+  --blush: #ffe3fb;
+  --apricot: #f4d6c8;
+  --aqua: #94cbd1;
+  --aqua-light: #b4e6eb;
+  --smoke: #f2f5f9;
+  --cream: #fff9f2;
+  --line: #e0e4e9;
+  --white: #ffffff;
+  --ink-muted: #4a536a;
+  --on-navy-muted: #b8bdcb;
+  --teal: #3e817b;
+  --violet: #61639a;
+  --violet-light: #6e70a8;
+  --violet-deep: #45477a;
+  --dusk-light: #484e6c;
+  --dusk-deep: #232840;
+  --mist-text: #eaeff0;
+  --lavender: #c7c9dd;
+  --mauve: #a26fa1;
+
+  --font: 'Sora Variable', 'Sora', system-ui, sans-serif;
+  --fs-display: clamp(2.75rem, 1.6rem + 3.6vw, 4.5rem);
+  --fs-h1: clamp(2.25rem, 1.5rem + 2.4vw, 3.5rem);
+  --fs-h2: clamp(1.75rem, 1.3rem + 1.4vw, 2.5rem);
+  --fs-h3: 1.5rem;
+  --fs-lead: 1.25rem;
+  --fs-body: 1.0625rem;
+  --fs-small: 0.9375rem;
+  --fs-numeral: clamp(3.5rem, 2rem + 5vw, 6rem);
+
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px;
+  --s6: 32px; --s7: 48px; --s8: 64px; --s9: 96px; --s10: 128px;
+
+  --max: 1280px;
+  --pad: clamp(20px, 4vw, 48px);
+  --radius-card: 12px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 1.1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: var(--fs-body);
+  line-height: 1.65;
+  color: var(--navy);
+  background: var(--white);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+img, svg { display: block; max-width: 100%; }
+img { height: auto; }
+
+h1, h2, h3, h4 {
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+h1 { font-size: var(--fs-h1); line-height: 1.1; }
+h2 { font-size: var(--fs-h2); line-height: 1.15; }
+h3 { font-size: var(--fs-h3); line-height: 1.25; letter-spacing: -0.01em; }
+p { margin: 0; text-wrap: pretty; }
+p + p { margin-top: var(--s4); }
+
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+a:hover { text-decoration-thickness: 2px; }
+
+:focus-visible { outline: 3px solid var(--red); outline-offset: 3px; border-radius: 2px; }
+.on-navy :focus-visible { outline-color: var(--gold); }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+.skip {
+  position: absolute; left: var(--s4); top: -100px; z-index: 100;
+  background: var(--navy); color: var(--white); padding: var(--s3) var(--s4);
+  border-radius: 999px; text-decoration: none;
+}
+.skip:focus { top: var(--s4); }
+
+/* Layout */
+.wrap { width: 100%; max-width: calc(var(--max) + 2 * var(--pad)); margin-inline: auto; padding-inline: var(--pad); }
+.section { padding-block: clamp(64px, 9vw, 128px); }
+.section--tight { padding-block: clamp(48px, 6vw, 96px); }
+.grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--s5); }
+.measure { max-width: 38rem; }
+
+.bg-navy { background: var(--navy); color: var(--white); }
+.bg-smoke { background: var(--smoke); }
+.bg-blush { background: var(--blush); }
+.bg-cream { background: var(--cream); }
+
+.lead { font-size: var(--fs-lead); line-height: 1.6; }
+.muted { color: var(--ink-muted); }
+.on-navy .muted, .bg-navy .muted { color: var(--on-navy-muted); }
+.small { font-size: var(--fs-small); line-height: 1.55; }
+.display { font-size: var(--fs-display); line-height: 1.05; }
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; gap: var(--s2);
+  min-height: 48px; padding: 0 var(--s5);
+  border-radius: 999px; border: 2px solid transparent;
+  font: 600 1rem/1 var(--font); text-decoration: none; white-space: nowrap;
+  transition: background-color 200ms var(--ease), transform 200ms var(--ease), border-color 200ms var(--ease);
+}
+.btn:hover { text-decoration: none; }
+.btn:active { transform: translateY(1px); }
+.btn--primary { background: var(--red); color: var(--white); }
+.btn--primary:hover { background: var(--red-deep); }
+.btn--outline { border-color: currentColor; color: inherit; }
+.btn--outline:hover { background: rgb(19 29 54 / 0.06); }
+.bg-navy .btn--outline:hover { background: rgb(255 255 255 / 0.08); }
+.btn svg { width: 18px; height: 18px; transition: transform 200ms var(--ease); }
+.btn:hover svg { transform: translateX(3px); }
+
+.link-arrow { display: inline-flex; align-items: center; gap: var(--s2); font-weight: 600; text-decoration: none; }
+.link-arrow span { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.25em; }
+.link-arrow:hover span { text-decoration-thickness: 2px; }
+.link-arrow svg { width: 18px; height: 18px; flex: none; transition: transform 200ms var(--ease); }
+.link-arrow:hover svg { transform: translateX(3px); }
+
+/* Grain texture: static noise over a gradient field */
+.grain { position: relative; isolation: isolate; overflow: clip; }
+.grain::after {
+  content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background-image: var(--grain); background-size: 240px 240px;
+  opacity: var(--grain-opacity, 0.18); mix-blend-mode: var(--grain-blend, overlay);
+}
+.grain > * { position: relative; z-index: 2; }
+/* Light surfaces need multiply to show the grain without greying the colour */
+.grain-light { --grain-blend: multiply; --grain-opacity: 0.16; }
+
+/* Noisy gradient fields: linear blends between palette colours, always paired with .grain */
+.ng-periwinkle { background: linear-gradient(165deg, var(--violet) 50%, var(--lavender) 320%); color: var(--white); --grain-opacity: 0.14; }
+.ng-mist  { background: linear-gradient(155deg, var(--smoke) 35%, var(--lavender) 150%); }
+.ng-dawn  { background: linear-gradient(165deg, var(--white) 30%, var(--apricot) 130%); }
+.ng-linen { background: linear-gradient(165deg, var(--cream) 25%, var(--lavender) 140%); }
+
+/* Source notes under figures */
+.source { font-size: var(--fs-small); color: var(--ink-muted); }
+.bg-navy .source { color: var(--on-navy-muted); }
+.source a { color: inherit; }
+
+/* Numerals that live inside sentences */
+.numeral { display: block; font-size: var(--fs-numeral); font-weight: 300; line-height: 1; letter-spacing: -0.03em; }
+
+/* Reveal: content is visible by default; JS adds .js so reveals can enhance */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity 600ms var(--ease), transform 600ms var(--ease); transition-delay: var(--delay, 0ms); }
+  .js [data-reveal].is-in { opacity: 1; transform: none; }
+}
+
+/* Prose (articles and legal) */
+.prose { max-width: 38rem; }
+.prose h2 { font-size: 1.75rem; margin-top: var(--s7); margin-bottom: var(--s4); }
+.prose h3 { font-size: 1.375rem; margin-top: var(--s6); margin-bottom: var(--s3); }
+.prose h4 { font-size: 1.125rem; margin-top: var(--s5); margin-bottom: var(--s2); }
+.prose p { margin-top: var(--s4); }
+.prose ul, .prose ol { padding-left: 1.25em; margin: var(--s4) 0 0; }
+.prose li + li { margin-top: var(--s2); }
+.prose li::marker { color: var(--terracotta); }
+.prose strong { font-weight: 600; }
+
+dd, li, figcaption { text-wrap: pretty; }
+
+/* Text on Periwinkle stays white for contrast (kept last so it wins over flat-navy rules) */
+
+.ng-periwinkle :is(.muted, .source, .lead) { color: var(--white); }

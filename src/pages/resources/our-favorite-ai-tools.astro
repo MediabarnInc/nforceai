@@ -1,0 +1,104 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+
+const categories = [
+  'Marketing and copywriting',
+  'Sales and CRM',
+  'Accounting and finance',
+  'Productivity and operations',
+  'Security and compliance',
+] as const;
+
+type Cat = (typeof categories)[number];
+const tools: { name: string; use: string; text: string; href: string; cat: Cat }[] = [
+  { name: 'Jasper', use: 'Marketing', text: 'AI-powered marketing copy and content generation for blog posts, ads and SEO.', href: 'https://www.jasper.ai/', cat: 'Marketing and copywriting' },
+  { name: 'Copy.ai', use: 'Copywriting', text: 'Fast, simple copywriting for ads, emails and websites.', href: 'https://www.copy.ai/', cat: 'Marketing and copywriting' },
+  { name: 'Ocoya', use: 'Social media', text: 'Create social media content and manage scheduling with AI.', href: 'https://www.ocoya.com/', cat: 'Marketing and copywriting' },
+  { name: 'Apollo.io', use: 'Sales', text: 'AI for sales prospecting, enrichment and outreach.', href: 'https://apollo.io/', cat: 'Sales and CRM' },
+  { name: 'Shortwave', use: 'Email', text: 'An AI email client that helps you organize, write, search and schedule from a prompt.', href: 'https://www.shortwave.com/', cat: 'Sales and CRM' },
+  { name: 'Lavender', use: 'Outbound email', text: 'An AI email assistant for personalized outbound sales emails.', href: 'https://www.lavender.ai/', cat: 'Sales and CRM' },
+  { name: 'Gong', use: 'Sales', text: 'AI-driven sales conversation analytics and coaching.', href: 'https://www.gong.io/', cat: 'Sales and CRM' },
+  { name: 'Vic.ai', use: 'Invoice processing', text: 'AI-powered accounting automation and real-time invoice processing.', href: 'https://www.vic.ai/', cat: 'Accounting and finance' },
+  { name: 'Docyt', use: 'Accounting', text: 'AI accounting automation for small and mid-sized businesses.', href: 'https://docyt.com/', cat: 'Accounting and finance' },
+  { name: 'Truewind', use: 'Accounting', text: 'AI bookkeeping and financial modeling for startups.', href: 'https://www.truewind.ai/', cat: 'Accounting and finance' },
+  { name: 'Zeni', use: 'Bookkeeping', text: 'AI-driven bookkeeping, CFO services and expense management.', href: 'https://www.zeni.ai/', cat: 'Accounting and finance' },
+  { name: 'ClickUp Brain', use: 'Project management', text: 'AI built into ClickUp for task management, knowledge bases and more.', href: 'https://clickup.com/lp/ai', cat: 'Productivity and operations' },
+  { name: 'Beautiful.ai', use: 'Slide decks', text: 'Creates professional slide decks automatically.', href: 'https://www.beautiful.ai/', cat: 'Productivity and operations' },
+  { name: 'Nightfall', use: 'Data loss prevention', text: 'Data loss prevention and sensitive data discovery using AI.', href: 'https://www.nightfall.ai/', cat: 'Security and compliance' },
+  { name: 'Vanta', use: 'Compliance', text: 'Automated compliance monitoring for SOC 2, ISO 27001 and more.', href: 'https://www.vanta.com/', cat: 'Security and compliance' },
+  { name: 'Cortex XDR', use: 'Cybersecurity', text: 'AI-enhanced detection and response for cybersecurity.', href: 'https://www.paloaltonetworks.com/cortex/cortex-xdr', cat: 'Security and compliance' },
+];
+---
+<Base
+  title="AI tools we love"
+  description="Our top picks of AI tools for business and personal use, across marketing, sales, finance, productivity and security."
+>
+  <PageHero
+    title="AI tools we love"
+    intro="Our top picks for business and personal use. Tools we think can make your work faster and your life easier."
+    cta={false}
+  />
+
+  <section class="section--tight tools-section">
+    <div class="wrap">
+      <div class="filters" role="group" aria-label="Filter by category" data-filters hidden>
+        <button type="button" aria-pressed="true" data-cat="all">All</button>
+        {categories.map((c) => <button type="button" aria-pressed="false" data-cat={c}>{c}</button>)}
+      </div>
+      <p class="sr-only" aria-live="polite" data-count></p>
+      <ul class="tools" data-tools>
+        {tools.map((t) => (
+          <li data-cat={t.cat}>
+            <a href={t.href} rel="noopener" target="_blank">
+              <span class="use small muted">{t.use}</span>
+              <span class="name">{t.name}<span class="sr-only"> (opens in a new tab)</span></span>
+              <span class="text muted">{t.text}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .tools-section { padding-top: clamp(40px, 5vw, 72px); }
+  .filters { display: flex; flex-wrap: wrap; gap: var(--s2); margin-bottom: var(--s6); }
+  .filters:not([hidden]) { display: flex; }
+  .filters button {
+    min-height: 44px; padding: 0 var(--s4);
+    border: 1px solid var(--line); border-radius: 999px; background: var(--white);
+    font: 500 0.9375rem/1 var(--font); color: var(--navy); cursor: pointer;
+  }
+  .filters button:hover { border-color: var(--navy); }
+  .filters button[aria-pressed='true'] { background: var(--navy); color: var(--white); border-color: var(--navy); }
+  .tools { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); column-gap: var(--s6); }
+  .tools li[hidden] { display: none; }
+  .tools a { display: grid; align-content: start; gap: var(--s1); padding-block: var(--s5); border-top: 1px solid var(--line); text-decoration: none; height: 100%; }
+  .name { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.01em; }
+  .tools a:hover .name { text-decoration: underline; text-underline-offset: 0.2em; }
+</style>
+
+<script>
+  const filters = document.querySelector<HTMLElement>('[data-filters]');
+  const items = Array.from(document.querySelectorAll<HTMLElement>('[data-tools] li'));
+  const count = document.querySelector<HTMLElement>('[data-count]');
+  if (filters) {
+    filters.hidden = false;
+    const buttons = Array.from(filters.querySelectorAll<HTMLButtonElement>('button'));
+    buttons.forEach((b) =>
+      b.addEventListener('click', () => {
+        const cat = b.dataset.cat;
+        buttons.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+        let n = 0;
+        items.forEach((li) => {
+          const show = cat === 'all' || li.dataset.cat === cat;
+          li.hidden = !show;
+          if (show) n++;
+        });
+        if (count) count.textContent = `${n} tools shown`;
+      }),
+    );
+  }
+</script>

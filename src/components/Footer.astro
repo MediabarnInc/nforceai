@@ -1,0 +1,69 @@
+---
+import Logo from './Logo.astro';
+import { nav, certifications, email } from '../data/site';
+const year = new Date().getFullYear();
+---
+<footer class="footer grain on-navy">
+  <div class="wrap">
+    <div class="top">
+      <div class="intro">
+        <Logo color="var(--mist-text)" class="logo" />
+        <p class="tagline">AI anomaly detection, identity security and workforce enablement for the U.S. public sector.</p>
+        <p class="muted small">Women-owned small business (WOSB)</p>
+        <p class="small"><a href={`mailto:${email}`}>{email}</a></p>
+      </div>
+      {nav.map((group) => (
+        <div class="col">
+          <h2 class="col-title">{group.label}</h2>
+          <ul>
+            {group.items.map((i) => <li><a href={i.href}>{i.label}</a></li>)}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    <div class="certs">
+      <h2 class="col-title">Certifications and compliance</h2>
+      <p class="cert-list">{certifications.join(' · ')}</p>
+    </div>
+
+    <div class="base small">
+      <p>© {year} nForce AI LLC</p>
+      <ul>
+        <li><a href="/legal">Privacy policy</a></li>
+        <li><a href="/terms-of-use">Terms of use</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer { padding-block: var(--s9) var(--s6); background: linear-gradient(160deg, var(--dusk-light) 0%, var(--dusk-deep) 100%); color: var(--mist-text); --on-navy-muted: var(--mist-text); --grain-opacity: 0.55; }
+  .footer :global(.muted) { color: var(--mist-text); }
+  .top { display: grid; grid-template-columns: 1.4fr repeat(3, 1fr); gap: var(--s7) var(--s6); }
+  .intro :global(.logo) { width: 72px; height: auto; margin-bottom: var(--s5); }
+  .tagline { max-width: 34ch; font-size: 1.125rem; line-height: 1.5; margin-bottom: var(--s4); }
+  .col-title { font-size: 1rem; font-weight: 600; letter-spacing: 0; margin-bottom: var(--s4); color: var(--mist-text); }
+  ul { list-style: none; margin: 0; padding: 0; }
+  li + li { margin-top: var(--s3); }
+  .col a, .base a, .intro a { color: var(--on-navy-muted); text-decoration: none; }
+  .col a:hover, .base a:hover, .intro a:hover { color: var(--mist-text); text-decoration: underline; }
+  .certs { margin-top: var(--s8); padding-top: var(--s6); border-top: 1px solid rgb(255 255 255 / 0.24); }
+  .cert-list { color: var(--on-navy-muted); max-width: 48rem; }
+  .base {
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--s4);
+    margin-top: var(--s7); padding-top: var(--s5); border-top: 1px solid rgb(255 255 255 / 0.24);
+    color: var(--on-navy-muted);
+  }
+  .base ul { display: flex; gap: var(--s5); }
+  .base li + li { margin-top: 0; }
+
+  @media (max-width: 900px) {
+    .top { grid-template-columns: 1fr 1fr; }
+    .intro { grid-column: 1 / -1; }
+  }
+  @media (max-width: 520px) {
+    .top { grid-template-columns: 1fr; }
+  }
+</style>

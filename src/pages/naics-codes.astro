@@ -17,15 +17,22 @@ import { naics, certifications, email } from '../data/site';
     <div class="wrap layout">
       <div class="block" data-reveal>
         <h2>Our NAICS codes</h2>
-        <table>
-          <caption class="sr-only">NAICS codes for nForce AI</caption>
-          <thead><tr><th scope="col">Code</th><th scope="col">Industry</th></tr></thead>
-          <tbody>
-            {naics.map((n) => (
-              <tr><td class="code">{n.code}</td><td>{n.title}</td></tr>
-            ))}
-          </tbody>
-        </table>
+        <p class="hint small muted">Select a code to see what it covers.</p>
+        <ul class="codes">
+          {naics.map((n) => (
+            <li>
+              <details>
+                <summary>
+                  <span class="code">{n.code}</span>
+                  <span class="title">{n.title}</span>
+                  <svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 6l4.5 4.5L12.5 6" /></svg>
+                </summary>
+                <p class="def">{n.text}</p>
+              </details>
+            </li>
+          ))}
+        </ul>
+        <p class="small muted note">Definitions from the <a href="https://www.census.gov/naics/">U.S. Census Bureau’s NAICS manual</a>.</p>
       </div>
       <aside class="facts grain grain-light ng-mist" data-reveal style="--delay:120ms">
         <div>
@@ -47,11 +54,31 @@ import { naics, certifications, email } from '../data/site';
 
 <style>
   .layout { display: grid; grid-template-columns: 7fr 4fr; gap: clamp(40px, 6vw, 112px); align-items: start; }
-  h2 { margin-bottom: var(--s5); }
-  table { width: 100%; border-collapse: collapse; font-size: 1.125rem; }
-  th { text-align: left; font-size: var(--fs-small); font-weight: 600; color: var(--ink-muted); padding: var(--s3) 0; border-bottom: 2px solid var(--navy); }
-  td { padding: var(--s4) 0; border-bottom: 1px solid var(--line); vertical-align: top; }
-  .code { width: 120px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  h2 { margin-bottom: var(--s2); }
+  .hint { margin-bottom: var(--s5); }
+  .codes { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--navy); }
+  .codes li { border-bottom: 1px solid var(--line); }
+  summary {
+    display: grid; grid-template-columns: 96px 1fr 20px; gap: var(--s4); align-items: center;
+    padding: var(--s4) 0; cursor: pointer; list-style: none; font-size: 1.125rem;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary:hover .title { text-decoration: underline; text-underline-offset: 0.2em; }
+  .code { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .chev { width: 20px; height: 20px; fill: none; stroke: var(--navy); stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; transition: transform 200ms var(--ease); }
+  details[open] .chev { transform: rotate(180deg); }
+  .def { margin: 0 0 var(--s5) calc(96px + var(--s4)); max-width: 60ch; color: var(--ink-muted); }
+  details[open] .def { animation: open 260ms var(--ease); }
+  @keyframes open { from { opacity: 0; transform: translateY(-4px); } }
+  .note { margin-top: var(--s4); }
+  @media (prefers-reduced-motion: reduce) { .chev, details[open] .def { transition: none; animation: none; } }
+  @media (max-width: 560px) {
+    summary { grid-template-columns: 1fr 20px; gap: var(--s1) var(--s3); }
+    .code { grid-column: 1; }
+    .title { grid-column: 1; grid-row: 2; }
+    .chev { grid-column: 2; grid-row: 1 / span 2; }
+    .def { margin-left: 0; }
+  }
   .facts { border-radius: var(--radius-card); padding: var(--s6); display: grid; gap: var(--s6); }
   .facts h3 { font-size: 1rem; margin-bottom: var(--s2); }
   .facts ul { list-style: none; margin: 0; padding: 0; }

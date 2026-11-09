@@ -1,0 +1,200 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Mosaic from '../components/Mosaic.astro';
+import AnomalyExplorer from '../components/AnomalyExplorer.astro';
+import UseCases from '../components/UseCases.astro';
+import ResourceLinks from '../components/ResourceLinks.astro';
+import { articles, sources } from '../data/site';
+
+const needs = [
+  ['Accurate', 'enough to catch subtle patterns and complex schemes.'],
+  ['Explainable', 'so every flag withstands audit and investigative scrutiny.'],
+  ['Scalable', 'across diverse data sources and growing oversight demands.'],
+  ['Compliance-first', 'aligned with state and federal mandates from day one.'],
+];
+
+const capabilities = [
+  ['Data integration at scale', 'Aggregate and normalize data from core financial, procurement, payroll and business registration systems, then enrich it with federal, public and commercial datasets.'],
+  ['Business rule automation', 'Detect misclassification, duplicate payments, change orders, vendor preference and conflicts of interest.'],
+  ['Fraud indicators', 'Identify high-risk vendors, sanctioned entities and outlier transactions using layered commerce and transaction data.'],
+  ['Explainable AI', 'Combine red-flag detection with supervised learning, which learns from reviewer feedback to reduce false positives, and unsupervised learning, which uncovers hidden schemes.'],
+  ['Human in the loop', 'Subject matter experts and auditors validate every anomaly, so results are transparent, actionable and audit-ready.'],
+];
+
+const brag = [
+  ['Grounded insights', 'Every AI-generated insight is checked against verified, structured knowledge, so an alert traces back to records, not to a model’s guess.'],
+  ['Continuous monitoring', 'Data is retrieved and checked as it arrives, so unusual activity surfaces while there is still time to act.'],
+  ['Behavioral analysis', 'Relationships and behavior are mapped across data sources to reveal subtle deviations and hidden networks.'],
+  ['Adaptive learning', 'Reviewer decisions feed back into the models, which adjust to new tactics and reduce false positives over time.'],
+  ['Actionable alerts', 'Each alert arrives with its reasons and a workflow, so investigators can move straight to the evidence.'],
+];
+
+const cases = [
+  { title: 'Transaction fraud', text: 'Unauthorized payments, account takeovers and payment anomalies, flagged as they happen.' },
+  { title: 'Tax and revenue fraud', text: 'Underreported income, fraudulent deductions and shell company activity found in structured tax data and financial records.' },
+  { title: 'Grant and subsidy fraud', text: 'Fraudulent applications, misallocated funds and non-compliance caught by verifying applicant data and reported spending.' },
+  { title: 'Procurement fraud and misappropriation', text: 'Split purchases, preferred vendors and misused government funds surfaced across procurement records.' },
+  { title: 'Trade-based money laundering', text: 'Pricing discrepancies, shipment weights and bill of lading anomalies that point to fraudulent trade.' },
+  { title: 'Customs and tariff evasion', text: 'Undervalued shipments, misclassified goods and false invoicing, found by cross-referencing trade and customs records.' },
+  { title: 'Sanctions and illicit fund flows', text: 'Transactions screened continuously against sanctions lists and high-risk entities.' },
+  { title: 'Foreign corruption and cross-border crime', text: 'Suspicious offshore transactions and high-risk entities traced through global financial networks.' },
+];
+---
+<Base
+  title="AI fraud and anomaly detection for government agencies"
+  description="Explainable AI anomaly detection that helps government agencies stop improper payments, strengthen oversight and stay compliant with state and federal mandates."
+  closeText="Learn how we can help your agency find and prevent fraud, protect public funds and keep every finding audit-ready."
+>
+  <PageHero
+    title="Fraud and anomaly detection for government agencies"
+    intro="Stop improper payments, strengthen oversight and meet state and federal mandates with AI that explains every flag it raises."
+  >
+    <Mosaic
+      tone="light"
+      cols={3}
+      rows={3}
+      items={[
+        { k: 'drop', c: 0, r: 0, f: 'navy' },
+        { k: 'circle', c: 1, r: 0, g: ['teal', 'lavender'] },
+        { k: 'arch', c: 2, r: 0, h: 2, g: ['violet', 'blush'], a: 90 },
+        { k: 'bullet', c: 0, r: 1, w: 2, g: ['navy', 'violet'], a: 0 },
+        { k: 'circle', c: 0.5, r: 0.4, f: 'lavender', o: 0.55, blend: true },
+        { k: 'dome', c: 0, r: 2, g: ['blush', 'lavender'], a: 90 },
+        { k: 'circle', c: 1, r: 2, f: 'gold', clean: true },
+        { k: 'leaf', c: 2, r: 2, g: ['teal', 'navy'] },
+      ]}
+    />
+  </PageHero>
+
+  <section class="section grain grain-light ng-linen challenge">
+    <div class="wrap two">
+      <div data-reveal>
+        <h2>Manual review can’t keep up</h2>
+        <p class="lead muted">
+          Agencies lose billions of taxpayer dollars a year to fraud, waste, abuse and improper payments. Audits and manual reviews can’t match the speed, scale and sophistication of today’s schemes.
+        </p>
+        <p class="muted">
+          Legacy tools raise too many false positives, miss anomalies that cross systems and can’t show the reasoning statutory compliance requires. Oversight teams end up overextended, finding risk after the money is gone.
+        </p>
+      </div>
+      <div data-reveal style="--delay:120ms">
+        <h3 class="needs-title">Agencies need detection that is:</h3>
+        <ul class="needs">
+          {needs.map(([k, v]) => <li><strong>{k}</strong> {v}</li>)}
+        </ul>
+        <p class="fact">
+          Check fraud reports to FinCEN passed 680,000 in 2022, nearly double the year before.
+          <span class="source">Source: <a href={sources.fincenCheckFraud}>FinCEN alert, February 2023</a></span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap two">
+      <div class="sticky" data-reveal>
+        <h2>One platform, built for oversight</h2>
+        <p class="muted">nForce AI delivers compliance-first, explainable anomaly detection designed specifically for government programs.</p>
+      </div>
+      <dl class="caps">
+        {capabilities.map(([t, d], i) => (
+          <div data-reveal style={`--delay:${i * 60}ms`}>
+            <dt>{t}</dt>
+            <dd class="muted">{d}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <section class="section bg-smoke grain grain-light ng-mist" aria-labelledby="explorer-title">
+    <div class="wrap">
+      <div class="explorer-head" data-reveal>
+        <h2 id="explorer-title">See how a flag is explained</h2>
+        <p class="muted">Pick a flagged payment. Each one shows the rule that fired, the model signal behind it and where human review stands.</p>
+      </div>
+      <AnomalyExplorer />
+    </div>
+  </section>
+
+  <section class="section brag">
+    <div class="wrap two">
+      <div class="sticky" data-reveal>
+        <h2>How BRAG keeps AI grounded</h2>
+        <p class="muted">
+          BRAG, short for Better Retrieval-Augmented Generation, is our framework for grounding AI in verified data. Standard retrieval-augmented generation lets a model look things up before it answers. BRAG adds a check: every insight is validated against structured, verified records before a reviewer sees it.
+        </p>
+      </div>
+      <ol class="brag-list">
+        {brag.map(([t, d], i) => (
+          <li data-reveal style={`--delay:${i * 60}ms`}>
+            <h3>{t}</h3>
+            <p class="muted">{d}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <UseCases
+    heading="What we detect"
+    intro="Fraud takes many forms. These are the patterns agencies most often ask us to find."
+    items={cases}
+  />
+
+  <section class="section--tight fact-band">
+    <div class="wrap">
+      <figure class="big-fact" data-reveal>
+        <p>
+          The U.S. Treasury recovered <strong>$375 million</strong> in fiscal year 2023 after adding machine learning to its check fraud detection.
+        </p>
+        <figcaption class="source">Source: <a href={sources.treasury}>U.S. Department of the Treasury, February 2024</a></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <ResourceLinks items={[articles.taxCompliance, articles.taxGapCase]} />
+</Base>
+
+<style>
+  .two { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(40px, 6vw, 112px); }
+  .sticky { position: sticky; top: 120px; align-self: start; }
+  .two h2 { margin-bottom: var(--s5); max-width: 18ch; }
+  .challenge .lead { margin-bottom: var(--s4); max-width: 46ch; }
+  .challenge .muted:not(.lead) { max-width: 52ch; }
+  .needs-title { font-size: 1.25rem; margin-bottom: var(--s4); }
+  .needs { list-style: none; margin: 0; padding: 0; }
+  .needs li { padding-block: var(--s4); border-top: 1px solid var(--line); font-size: 1.125rem; }
+  .needs strong { color: var(--navy); font-weight: 700; }
+  .fact { margin-top: var(--s7); font-size: var(--fs-lead); line-height: 1.5; max-width: 40ch; }
+  .fact .source { display: block; margin-top: var(--s3); }
+
+  .caps { margin: 0; }
+  .caps > div { padding-block: var(--s5); border-top: 1px solid var(--line); }
+  .caps > div:last-child { border-bottom: 1px solid var(--line); }
+  .caps dt { font-size: 1.25rem; font-weight: 600; margin-bottom: var(--s2); }
+  .caps dd { margin: 0; max-width: 36rem; }
+
+  .explorer-head { display: grid; grid-template-columns: 5fr 7fr; gap: var(--s4) var(--s8); align-items: end; margin-bottom: var(--s7); }
+  .explorer-head p { max-width: 52ch; }
+
+  .brag-list { list-style: none; margin: 0; padding: 0; counter-reset: b; }
+  .brag-list li { position: relative; padding: var(--s5) 0 var(--s5) var(--s8); border-top: 1px solid var(--line); }
+  .brag-list li::before {
+    counter-increment: b; content: counter(b);
+    position: absolute; left: 0; top: var(--s5);
+    font-size: 2.25rem; font-weight: 300; line-height: 1; color: var(--terracotta);
+  }
+  .brag-list h3 { font-size: 1.25rem; margin-bottom: var(--s2); }
+
+  .big-fact { margin: 0; max-width: 40ch; }
+  .big-fact p { font-size: clamp(1.5rem, 1.1rem + 1.4vw, 2.25rem); line-height: 1.3; letter-spacing: -0.01em; }
+  .big-fact strong { font-weight: 600; }
+  .big-fact .source { margin-top: var(--s4); }
+
+  @media (max-width: 900px) {
+    .two, .explorer-head { grid-template-columns: 1fr; }
+    .sticky { position: static; }
+  }
+</style>

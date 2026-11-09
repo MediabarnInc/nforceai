@@ -22,12 +22,33 @@ export const nav = [
   },
 ];
 
+/** Definitions are the U.S. Census Bureau's NAICS descriptions, as on the current site. */
 export const naics = [
-  { code: '513210', title: 'Software Publishers' },
-  { code: '518210', title: 'Data Processing, Hosting, and Related Services' },
-  { code: '541511', title: 'Custom Computer Programming Services' },
-  { code: '541512', title: 'Computer Systems Design Services' },
-  { code: '541519', title: 'Other Computer Related Services' },
+  {
+    code: '513210',
+    title: 'Software Publishers',
+    text: 'This industry comprises establishments primarily engaged in computer software publishing or publishing and reproduction. Establishments in this industry carry out operations necessary for producing and distributing computer software, such as designing, providing documentation, assisting in installation, and providing support services to software purchasers. These establishments may design, develop, and publish, or publish only. These establishments may publish and distribute software remotely through subscriptions and downloads.',
+  },
+  {
+    code: '518210',
+    title: 'Data Processing, Hosting, and Related Services',
+    text: 'This industry comprises establishments primarily engaged in providing infrastructure for hosting or data processing services. These establishments may provide specialized hosting activities, such as Web hosting, streaming services, or application hosting (except software publishing), or they may provide general time-share mainframe facilities to clients. Data processing establishments provide complete processing and specialized reports from data supplied by clients or provide automated data processing and data entry services.',
+  },
+  {
+    code: '541511',
+    title: 'Custom Computer Programming Services',
+    text: 'This U.S. industry comprises establishments primarily engaged in writing, modifying, testing, and supporting software to meet the needs of a particular customer.',
+  },
+  {
+    code: '541512',
+    title: 'Computer Systems Design Services',
+    text: 'This U.S. industry comprises establishments primarily engaged in planning and designing computer systems that integrate computer hardware, software, and communication technologies. The hardware and software components of the system may be provided by this establishment or company as part of integrated services or may be provided by third parties or vendors. These establishments often install the system and train and support users of the system.',
+  },
+  {
+    code: '541519',
+    title: 'Other Computer Related Services',
+    text: 'This U.S. industry comprises establishments primarily engaged in providing computer related services (except custom programming, systems integration design, and facilities management services). Establishments providing computer disaster recovery services or software installation services are included in this industry.',
+  },
 ];
 
 /** Listed as on the current site. Wording to be confirmed by nForce before launch. */

@@ -69,7 +69,7 @@ const founders = [
         {founders.map((f, i) => (
           <li data-reveal style={`--delay:${i * 120}ms`}>
             <div class:list={['frame', f.frame]}>
-              <img src={f.photo} alt={`Portrait of ${f.name}`} width="520" height="620" loading="lazy" decoding="async" />
+              <img src={f.photo} alt={`Portrait of ${f.name}`} width="340" height="408" loading="lazy" decoding="async" />
             </div>
             <h3>{f.name}</h3>
             <p class="muted">{f.role}</p>
@@ -88,8 +88,9 @@ const founders = [
 
   .f-head { display: grid; grid-template-columns: 5fr 7fr; gap: var(--s4) var(--s8); align-items: end; margin-bottom: var(--s8); }
   .f-head p { max-width: 54ch; }
-  .founders { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 96px); }
-  .founders li:nth-child(2) { margin-top: var(--s9); }
+  .founders { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 340px)); gap: clamp(32px, 6vw, 96px); }
+  .founders li { max-width: 340px; }
+  .founders li:nth-child(2) { margin-top: var(--s7); }
   .frame { aspect-ratio: 5 / 6; overflow: hidden; background: var(--blush); margin-bottom: var(--s5); }
   .frame img { width: 100%; height: 100%; object-fit: cover; }
   .frame.arch { border-radius: 999px 999px 0 0; }

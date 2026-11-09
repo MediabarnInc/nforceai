@@ -17,7 +17,8 @@ const { title, description, closeBand = true, closeHeading, closeText, type = 'w
 const fullTitle = title === 'nForce AI' ? title : `${title} | nForce AI`;
 const cleanPath = Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '/');
 const canonical = new URL(cleanPath, Astro.site);
-const og = new URL('/og.png', Astro.site);
+const og = new URL('/og.jpg', Astro.site);
+const ogAlt = 'nForce AI: Find the fraud hiding in public data. Women-owned AI anomaly detection for the U.S. public sector.';
 ---
 <!doctype html>
 <html lang="en">
@@ -38,7 +39,13 @@ const og = new URL('/og.png', Astro.site);
     <meta property="og:image" content={og} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:alt" content={ogAlt} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={og} />
+    <meta name="twitter:image:alt" content={ogAlt} />
     <script is:inline>document.documentElement.classList.add('js');</script>
     <script
       type="application/ld+json"

@@ -5,7 +5,7 @@ export const prerender = false;
 /**
  * Contact form handler.
  * Sends each enquiry by email through Resend when RESEND_API_KEY and CONTACT_TO are set
- * (Railway environment variables). Nothing is stored, matching the privacy policy.
+ * (Vercel environment variables). Nothing is stored, matching the privacy policy.
  * Swap sendEmail() for another provider if the team picks a different service.
  */
 

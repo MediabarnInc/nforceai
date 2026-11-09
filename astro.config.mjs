@@ -1,11 +1,11 @@
 import { defineConfig } from 'astro/config';
-import node from '@astrojs/node';
+import vercel from '@astrojs/vercel';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://www.nforceai.com',
   output: 'static',
-  adapter: node({ mode: 'standalone' }),
+  adapter: vercel(),
   integrations: [sitemap()],
   trailingSlash: 'never',
   build: { format: 'file' },

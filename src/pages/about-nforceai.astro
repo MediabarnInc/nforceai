@@ -86,9 +86,10 @@ const founders = [
   .story .lead { margin-bottom: var(--s4); max-width: 44ch; }
   .story .muted { max-width: 52ch; }
 
-  .f-head { display: grid; grid-template-columns: 5fr 7fr; gap: var(--s4) var(--s8); align-items: end; margin-bottom: var(--s8); }
+  .f-head { margin-bottom: var(--s8); }
+  .f-head h2 { margin-bottom: var(--s4); }
   .f-head p { max-width: 54ch; }
-  /* Same columns as the heading row: Angela sits under the heading, Paige under the intro. */
+  /* Two columns; the heading and intro sit above, left-aligned. */
   .founders { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 5fr 7fr; gap: var(--s7) var(--s8); }
   .founders li { max-width: 340px; }
   .frame { aspect-ratio: 1; overflow: hidden; background: var(--blush); margin-bottom: var(--s5); }
@@ -98,6 +99,6 @@ const founders = [
   .founders h3 { margin-bottom: var(--s1); }
 
   @media (max-width: 760px) {
-    .story, .f-head, .founders { grid-template-columns: 1fr; }
+    .story, .founders { grid-template-columns: 1fr; }
   }
 </style>

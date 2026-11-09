@@ -1,0 +1,156 @@
+---
+/**
+ * Cookie consent for Google Analytics and HubSpot.
+ *
+ * Nothing loads and no cookies are set until a visitor chooses "Accept".
+ * The banner only exists when at least one ID is set as a Vercel environment variable:
+ *   PUBLIC_GA_MEASUREMENT_ID   e.g. G-ABC123XYZ
+ *   PUBLIC_HUBSPOT_PORTAL_ID   e.g. 12345678
+ * The choice is kept in localStorage ("nf-consent"). The footer's "Cookie settings"
+ * button reopens the banner. Declining after accepting removes the trackers' cookies.
+ * Browsers that send Global Privacy Control are treated as "Decline" without asking.
+ */
+const gaId = (import.meta.env.PUBLIC_GA_MEASUREMENT_ID ?? '').trim();
+const hsId = (import.meta.env.PUBLIC_HUBSPOT_PORTAL_ID ?? '').trim();
+const enabled = Boolean(gaId || hsId);
+---
+{enabled && (
+  <section class="consent" aria-label="Cookie choices" data-consent hidden>
+    <p class="consent-text">
+      We use cookies to see how people find and use this site. They load only if you accept.
+      <a href="/legal">Privacy policy</a>
+    </p>
+    <div class="consent-actions">
+      <button type="button" class="btn btn--outline consent-btn" data-consent-choice="denied">Decline</button>
+      <button type="button" class="btn consent-btn consent-accept" data-consent-choice="granted">Accept</button>
+    </div>
+  </section>
+)}
+
+{enabled && (
+  <script is:inline define:vars={{ gaId, hsId }}>
+    (function () {
+      var KEY = 'nf-consent';
+      var banner = document.querySelector('[data-consent]');
+      var loaded = false;
+
+      function read() {
+        try { return localStorage.getItem(KEY); } catch (e) { return null; }
+      }
+      function write(v) {
+        try { localStorage.setItem(KEY, v); } catch (e) {}
+      }
+
+      function loadTrackers() {
+        if (loaded) return;
+        loaded = true;
+        if (gaId) {
+          window.dataLayer = window.dataLayer || [];
+          window.gtag = function () { window.dataLayer.push(arguments); };
+          window.gtag('consent', 'default', {
+            ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied',
+            analytics_storage: 'granted',
+          });
+          window.gtag('js', new Date());
+          window.gtag('config', gaId);
+          var g = document.createElement('script');
+          g.async = true;
+          g.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(gaId);
+          document.head.appendChild(g);
+        }
+        if (hsId) {
+          var h = document.createElement('script');
+          h.id = 'hs-script-loader';
+          h.async = true;
+          h.defer = true;
+          h.src = 'https://js.hs-scripts.com/' + encodeURIComponent(hsId) + '.js';
+          document.head.appendChild(h);
+        }
+      }
+
+      // Remove tracker cookies set while consent was granted.
+      function clearCookies() {
+        var host = location.hostname;
+        var parts = host.split('.');
+        var domains = ['', host];
+        for (var i = 1; i < parts.length - 1; i++) domains.push('.' + parts.slice(i).join('.'));
+        document.cookie.split(';').forEach(function (c) {
+          var name = c.split('=')[0].trim();
+          if (!/^(_ga|_gid|_gat|__hs|hubspotutk|__hssc|__hssrc|__hstc|messagesUtk)/.test(name)) return;
+          domains.forEach(function (d) {
+            document.cookie = name + '=; Max-Age=0; path=/' + (d ? '; domain=' + d : '');
+          });
+        });
+      }
+
+      function hide() { if (banner) banner.hidden = true; }
+      function show() {
+        if (!banner) return;
+        banner.hidden = false;
+        var first = banner.querySelector('[data-consent-choice="granted"]');
+        if (first && document.activeElement && document.activeElement.hasAttribute('data-consent-open')) first.focus();
+      }
+
+      function choose(v) {
+        var previous = read();
+        write(v);
+        hide();
+        if (v === 'granted') {
+          loadTrackers();
+        } else if (previous === 'granted') {
+          if (window._hsq) window._hsq.push(['revokeCookieConsent']);
+          clearCookies();
+          // Reload so scripts that already ran stop collecting.
+          location.reload();
+        }
+      }
+
+      if (banner) {
+        banner.addEventListener('click', function (e) {
+          var b = e.target.closest('[data-consent-choice]');
+          if (b) choose(b.getAttribute('data-consent-choice'));
+        });
+      }
+      document.addEventListener('click', function (e) {
+        if (e.target.closest('[data-consent-open]')) show();
+      });
+
+      var stored = read();
+      if (stored === 'granted') loadTrackers();
+      else if (!stored) {
+        if (navigator.globalPrivacyControl) write('denied');
+        else show();
+      }
+    })();
+  </script>
+)}
+
+<style>
+  .consent {
+    position: fixed; z-index: 60;
+    left: var(--pad); bottom: var(--pad);
+    width: min(440px, calc(100vw - 2 * var(--pad)));
+    display: grid; gap: var(--s4);
+    padding: var(--s5);
+    background: var(--cream);
+    color: var(--navy);
+    border: 1px solid var(--lavender);
+    border-radius: var(--radius-card);
+    box-shadow: 0 12px 32px rgb(19 29 54 / 0.14);
+    animation: consent-in 400ms var(--ease) both;
+  }
+  .consent[hidden] { display: none; }
+  .consent-text { font-size: var(--fs-small); line-height: 1.55; }
+  .consent-text a { font-weight: 600; margin-left: var(--s1); }
+  .consent-actions { display: flex; gap: var(--s3); flex-wrap: wrap; }
+  .consent-btn { min-height: 44px; padding: 0 var(--s5); cursor: pointer; font-size: 0.9375rem; background: transparent; }
+  .consent-accept { background: var(--navy); color: var(--white); }
+  .consent-accept:hover { background: var(--violet-deep); }
+
+  @keyframes consent-in { from { opacity: 0; transform: translateY(12px); } }
+  @media (prefers-reduced-motion: reduce) { .consent { animation: none; } }
+  @media (max-width: 520px) {
+    .consent { left: var(--s3); right: var(--s3); bottom: var(--s3); width: auto; }
+    .consent-btn { flex: 1; justify-content: center; }
+  }
+</style>

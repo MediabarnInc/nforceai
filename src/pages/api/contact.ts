@@ -3,9 +3,12 @@ import type { APIRoute } from 'astro';
 export const prerender = false;
 
 /**
- * Contact form handler.
- * Sends each enquiry by email through Resend when RESEND_API_KEY and CONTACT_TO are set
- * (Vercel environment variables). Nothing is stored, matching the privacy policy.
+ * Contact form handler. Each enquiry goes to whichever of these is configured
+ * (Vercel environment variables), and counts as sent if at least one succeeds:
+ *  - Email through Resend: RESEND_API_KEY and CONTACT_TO (CONTACT_FROM optional).
+ *  - HubSpot, as a form submission that creates or updates a contact:
+ *    HUBSPOT_PORTAL_ID (or PUBLIC_HUBSPOT_PORTAL_ID) and HUBSPOT_FORM_ID.
+ *    The HubSpot form needs the fields firstname, lastname, email, company and message.
  * Swap sendEmail() for another provider if the team picks a different service.
  */
 
@@ -31,6 +34,39 @@ async function sendEmail(data: Record<string, string>) {
     headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({ from, to, reply_to: data.email, subject: `Website enquiry from ${data.firstName} ${data.lastName}`, text }),
   });
+  return { ok: res.ok, reason: res.ok ? undefined : ('send-failed' as const) };
+}
+
+const env = (k: string) => (import.meta.env[k] ?? process.env[k] ?? '').toString().trim();
+
+async function sendToHubSpot(data: Record<string, string>, request: Request) {
+  const portal = env('HUBSPOT_PORTAL_ID') || env('PUBLIC_HUBSPOT_PORTAL_ID');
+  const formId = env('HUBSPOT_FORM_ID');
+  if (!portal || !formId) return { ok: false, reason: 'not-configured' as const };
+
+  // The hubspotutk cookie only exists if the visitor accepted cookies. It links
+  // the submission to their earlier page views in HubSpot.
+  const hutk = /(?:^|;\s*)hubspotutk=([^;]+)/.exec(request.headers.get('cookie') ?? '')?.[1];
+  const pageUri = request.headers.get('referer') ?? undefined;
+
+  const res = await fetch(
+    `https://api.hsforms.com/submissions/v3/integration/submit/${encodeURIComponent(portal)}/${encodeURIComponent(formId)}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        fields: [
+          { objectTypeId: '0-1', name: 'firstname', value: data.firstName },
+          { objectTypeId: '0-1', name: 'lastname', value: data.lastName },
+          { objectTypeId: '0-1', name: 'email', value: data.email },
+          { objectTypeId: '0-1', name: 'company', value: data.organization },
+          { objectTypeId: '0-1', name: 'message', value: data.message },
+        ],
+        context: { ...(hutk ? { hutk } : {}), ...(pageUri ? { pageUri } : {}), pageName: 'Contact' },
+      }),
+    },
+  );
+  if (!res.ok) console.error('[contact] HubSpot', res.status, await res.text().catch(() => ''));
   return { ok: res.ok, reason: res.ok ? undefined : ('send-failed' as const) };
 }
 
@@ -64,14 +100,14 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     return reply(422, { ok: false, error: 'Fill in your name, a valid email, a message and the consent box.' });
   }
 
-  try {
-    const result = await sendEmail(data);
-    if (!result.ok) {
-      console.error('[contact] email not sent:', result.reason);
-      return reply(503, { ok: false, error: 'Your message wasn’t sent. Email us at contact@nforceai.com instead.' });
-    }
-  } catch (err) {
-    console.error('[contact] email error', err);
+  const results = await Promise.all([
+    sendEmail(data).catch((err) => { console.error('[contact] email error', err); return { ok: false, reason: 'send-failed' as const }; }),
+    sendToHubSpot(data, request).catch((err) => { console.error('[contact] HubSpot error', err); return { ok: false, reason: 'send-failed' as const }; }),
+  ]);
+  const [email, hubspot] = results;
+  if (email.reason === 'send-failed') console.error('[contact] email not sent');
+  if (hubspot.reason === 'send-failed') console.error('[contact] HubSpot submission failed');
+  if (!results.some((r) => r.ok)) {
     return reply(503, { ok: false, error: 'Your message wasn’t sent. Email us at contact@nforceai.com instead.' });
   }
 

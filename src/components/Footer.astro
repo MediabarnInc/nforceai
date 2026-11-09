@@ -2,6 +2,8 @@
 import Logo from './Logo.astro';
 import { nav, certifications, email } from '../data/site';
 const year = new Date().getFullYear();
+// Show "Cookie settings" only when analytics or HubSpot is configured (see Consent.astro).
+const hasTrackers = Boolean((import.meta.env.PUBLIC_GA_MEASUREMENT_ID ?? '').trim() || (import.meta.env.PUBLIC_HUBSPOT_PORTAL_ID ?? '').trim());
 ---
 <footer class="footer grain on-navy">
   <div class="wrap">
@@ -33,6 +35,7 @@ const year = new Date().getFullYear();
         <li><a href="/legal">Privacy policy</a></li>
         <li><a href="/terms-of-use">Terms of use</a></li>
         <li><a href="/contact">Contact</a></li>
+        {hasTrackers && <li><button type="button" class="link-btn" data-consent-open>Cookie settings</button></li>}
       </ul>
     </div>
   </div>
@@ -58,6 +61,8 @@ const year = new Date().getFullYear();
   }
   .base ul { display: flex; gap: var(--s5); }
   .base li + li { margin-top: 0; }
+  .link-btn { font: inherit; color: var(--on-navy-muted); background: none; border: 0; padding: 0; cursor: pointer; }
+  .link-btn:hover { color: var(--mist-text); text-decoration: underline; }
 
   @media (max-width: 900px) {
     .top { grid-template-columns: 1fr 1fr; }
